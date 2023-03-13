@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import Farmers from '../Models/farmerModel.js'
-
+import Sellers from '../Models/sellerModel.js'
 
 /* REGISTER USER */
 export const register = async (req, res) => {
@@ -13,22 +13,40 @@ export const register = async (req, res) => {
       password,
       picturePath,
       state,
-      city
+      city,
+      type
     } = req.body;
+    if (type === 'Farmer') {
 
-    const salt = await bcrypt.genSalt();
-    const passwordHash = await bcrypt.hash(password, salt);
-    const newFarmer = new Farmers({
-      firstName,
-      lastName,
-      phone,
-      password: passwordHash,
-      picturePath,
-      state,
-      city
-    });
-    const savedFarmer = await newFarmer.save();
-    res.status(201).json({ farmer: savedFarmer });
+      const salt = await bcrypt.genSalt();
+      const passwordHash = await bcrypt.hash(password, salt);
+      const newFarmer = new Farmers({
+        firstName,
+        lastName,
+        phone,
+        password: passwordHash,
+        picturePath,
+        state,
+        city
+      });
+      const savedFarmer = await newFarmer.save();
+      res.status(201).json({ user: savedFarmer });
+    }
+    if (type === 'Seller') {
+      const salt = await bcrypt.genSalt();
+      const passwordHash = await bcrypt.hash(password, salt);
+      const newSeller = new Sellers({
+        firstName,
+        lastName,
+        phone,
+        password: passwordHash,
+        picturePath,
+        state,
+        city
+      });
+      const savedSeller = await newSeller.save();
+      res.status(201).json({ user: savedSeller });
+    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -37,16 +55,17 @@ export const register = async (req, res) => {
 /* LOGGING IN */
 export const login = async (req, res) => {
   try {
-    const { phone, password } = req.body;
-    const farmer = await Farmers.findOne({ phone });
-    if (!farmer) return res.status(400).json({ msg: "User does not exist. " });
+    const { phone, password, } = req.body;
+    let user = await Farmers.findOne({ phone }) || await Sellers.findOne({ phone });
+    if (!user) return res.status(400).json({ msg: "User does not exist. " });
 
-    const isMatch = await bcrypt.compare(password, farmer.password);
+
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials. " });
 
-    const token = jwt.sign({ id: farmer._id }, 'process.env.JWT_SECRET');
+    const token = jwt.sign({ id: user._id }, 'process.env.JWT_SECRET');
     // delete farmer.password;
-    res.status(200).json({ token, farmer });
+    res.status(200).json({ token, user: { ...user } });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

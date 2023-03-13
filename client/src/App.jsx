@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
@@ -69,10 +69,22 @@ class BuggyCounter extends React.Component {
 }
 function App() {
   const theme = useMemo(() => createTheme(themeSettings("light")), []);
+  useEffect(() => {
+    const successfulLookup = (position) => {
+      const { latitude, longitude } = position.coords;
+      fetch(
+        `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=6762b72f67c840eeb736155d8b9b803d`
+      )
+        .then((response) => response.json())
+        .then(console.log);
+    };
+    navigator.geolocation.getCurrentPosition(successfulLookup, console.log);
 
+  });
   return (
     <ErrorBoundary>
       <div className="">
+        <div id="google_translate_element"></div>
         <BrowserRouter>
           <ThemeProvider theme={theme}>
             <CssBaseline />

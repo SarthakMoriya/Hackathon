@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
+import { setLogin } from "../../state";
 import {
   Box,
   Button,
@@ -11,6 +11,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import "./Form.css";
 
 const Form = () => {
@@ -24,7 +25,7 @@ const Form = () => {
   const [type, setType] = useState("Farmer");
   const [pageType, setPageType] = useState("register");
   const { palette } = useTheme();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const isLogin = pageType === "login";
@@ -52,8 +53,8 @@ const Form = () => {
         body: formData,
       });
       const data = await response.json();
-      console.log(data.error);
-      if (data?.farmer?._id) {
+      console.log(data);
+      if (data?.farmer?._id || data?.seller?._id) {
         setPageType("login");
         notify("Successfully Registered!");
       } else {
@@ -67,12 +68,15 @@ const Form = () => {
         body: JSON.stringify({ phone, password }),
       });
       const data = await response.json();
-      if (data) {
+      console.log(data);
+      if (data.user) {
         notify("Redirecting...!");
         setTimeout(() => {
           navigate("/home");
+          dispatch(setLogin({ user: data.user, token: data.token }));
         }, 3000);
       }
+
     }
   };
   return (
@@ -146,8 +150,7 @@ const Form = () => {
                   cursor: "pointer",
                   opacity: "",
                 }}
-              >
-              </TextField>
+              ></TextField>
 
               <Box sx={{ gridColumn: "span 4", border: "1px solid black" }}>
                 <select
