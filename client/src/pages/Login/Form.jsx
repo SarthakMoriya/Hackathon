@@ -23,7 +23,7 @@ const Form = () => {
   const [phone, setPhone] = useState(Number(8544875229));
   const [password, setPassword] = useState("test1234");
   const [type, setType] = useState("Farmer");
-  const [pageType, setPageType] = useState("register");
+  const [pageType, setPageType] = useState("login");
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ const Form = () => {
       });
       const data = await response.json();
       console.log(data);
-      if (data?.farmer?._id || data?.seller?._id) {
+      if (data?.user?._id) {
         setPageType("login");
         notify("Successfully Registered!");
       } else {

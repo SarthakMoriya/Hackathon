@@ -16,6 +16,7 @@ export const register = async (req, res) => {
       city,
       type
     } = req.body;
+    console.log(type)
     if (type === 'Farmer') {
 
       const salt = await bcrypt.genSalt();
@@ -32,7 +33,7 @@ export const register = async (req, res) => {
       const savedFarmer = await newFarmer.save();
       res.status(201).json({ user: savedFarmer });
     }
-    if (type === 'Seller') {
+    if (type !== 'Farmer') {
       const salt = await bcrypt.genSalt();
       const passwordHash = await bcrypt.hash(password, salt);
       const newSeller = new Sellers({

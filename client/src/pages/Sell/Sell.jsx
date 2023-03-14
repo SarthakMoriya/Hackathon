@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import Navbar from "../../components/Navbar/Navbar";
+import AddProduct from "../../components/AddProducts/AddProduct";
 
 const Sell = () => {
   return (
-    <div>Sell</div>
-  )
-}
+    <div>
+      <Navbar />
+      <AddProduct />
+    </div>
+  );
+};
 
-export default Sell
+export default Sell;

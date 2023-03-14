@@ -11,7 +11,9 @@ import { fileURLToPath } from "url";
 
 /**Controller and Routers*/
 import authRouter from './routes/authRoutes.js'
+import productRouter from './routes/productRoutes.js'
 import { register } from "./controllers/auth.js";
+import { createProduct } from './controllers/products.js'
 
 /**CONFIGURATIONS */
 const __filename = fileURLToPath(import.meta.url);
@@ -40,7 +42,9 @@ const upload = multer({ storage })
 
 /**Routes  */
 app.post('/auth/register', upload.single('picture'), register)
-app.use('/auth',authRouter)
+app.post('/product/createProduct', upload.single('picture'), createProduct)
+app.use('/auth', authRouter)
+app.use('/product', productRouter)
 
 /**DataBase Connection */
 const port = 8080;
