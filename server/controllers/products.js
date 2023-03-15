@@ -5,7 +5,7 @@ import Farmers from '../Models/farmerModel.js'
 export const createProduct = async (req, res) => {
     
     try {
-        const { name, price, category, userId,picturePath } = req.body;
+        const { name, price, category, userId,picturePath ,username} = req.body;
          const isFarmer = await Farmers.findById(userId)
         if (!isFarmer) return res.status(401).json({ msg: "Only Farmers can add Products...!" })
         const product = new Products({
@@ -13,7 +13,8 @@ export const createProduct = async (req, res) => {
             price,
             category,
             userId,
-            picturePath
+            picturePath,
+            username
         })
         const savedProduct=await product.save()
         console.log(savedProduct)

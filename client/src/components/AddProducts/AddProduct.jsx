@@ -28,13 +28,14 @@ const AddProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(category,name)
+    console.log(category, name);
     const formData = new FormData();
     formData.append("name", name);
     formData.append("price", price);
     formData.append("picture", picture);
     formData.append("category", category);
     formData.append("userId", user?._doc?._id);
+    formData.append("username", user?._doc?.firstName + user?._doc?.lastName);
     formData.append("picturePath", picture.name);
 
     const response = await fetch(
@@ -106,7 +107,7 @@ const AddProduct = () => {
                 <select
                   onChange={(e) => {
                     setCategory(e.target.value);
-                    console.log(setCategory(e.target.value))
+                    console.log(setCategory(e.target.value));
                   }}
                 >
                   <option value="Crops">Crops</option>

@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     token: null,
     user: null,
+    products: [null]
 }
 
 export const authSlice = createSlice({
@@ -17,6 +18,9 @@ export const authSlice = createSlice({
             state.user = null;
             state.token = null;
         },
+        setProducts: (state, action) => {
+            state.products = [...state.products, ...action.payload.products]
+        }
     }
 })
 

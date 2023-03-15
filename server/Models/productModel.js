@@ -6,7 +6,8 @@ const productSchema = mongoose.Schema({
     photo: { type: String },
     userId: { type: String, required: [true, 'product must have a price!'] },
     category: { type: String },
-    picturePath: { type: String }
+    picturePath: { type: String },
+    username: { type: String },
 })
 
 const Products = new mongoose.model('Products', productSchema);

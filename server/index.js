@@ -8,6 +8,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
+import Stripe from 'stripe'
 
 /**Controller and Routers*/
 import authRouter from './routes/authRoutes.js'
@@ -28,6 +29,8 @@ app.use(morgan('common'));
 app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use('/assets', express.static(path.join(__dirname, 'public/assets')))
+const stripe = new Stripe('sk_test_51MRccSSBHS26neoyD9rRLQaZA0NA9Md2xndOfdTYE71RxTJpi93n2xYN3FopTvXlbb8gaRY0FDibPyesPXysvUid006YWvjw2D');
+
 
 /**FILE STORAGE */
 const storage = multer.diskStorage({
@@ -45,6 +48,33 @@ app.post('/auth/register', upload.single('picture'), register)
 app.post('/product/createProduct', upload.single('picture'), createProduct)
 app.use('/auth', authRouter)
 app.use('/product', productRouter)
+
+
+/**PAYMENTS */
+
+const calculateOrderAmount = (items) => {
+    // Replace this constant with a calculation of the order's amount
+    // Calculate the order total on the server to prevent
+    // people from directly manipulating the amount on the client
+    return 1400;
+};
+
+app.post("/create-payment-intent", async (req, res) => {
+    const { items } = req.body;
+  
+    // Create a PaymentIntent with the order amount and currency
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: calculateOrderAmount(items),
+      currency: "inr",
+      automatic_payment_methods: {
+        enabled: true,
+      },
+    });
+  
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    });
+  });
 
 /**DataBase Connection */
 const port = 8080;
