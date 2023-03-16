@@ -56,3 +56,16 @@ export const buyProduct = async (req, res) => {
 
     }
 }
+
+
+export const getProduct = async (req, res) => {
+    try {
+        const { productId } = req.params;
+        console.log(productId)
+        const product = await Products.findById(productId);
+        if (!product) return res.status(404).json({ msg: "No Product Found" })
+        res.status(201).json({ product })
+    } catch (error) {
+        res.status(500).json({ msg: "No product Found" })
+    }
+}
