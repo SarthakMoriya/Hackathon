@@ -12,6 +12,7 @@ import Sell from "./pages/Sell/Sell";
 import Buy from "./pages/Buy/Buy";
 
 import "./App.css";
+import Order from "./pages/orders/Order";
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -93,6 +94,7 @@ function App() {
               <Route path="/" element={<Login />} />
               <Route path="/sell" element={<Sell />} />
               <Route path="/buy" element={<Buy />} />
+              <Route path="/orders/:userId" element={<Order />} />
             </Routes>
           </ThemeProvider>
         </BrowserRouter>

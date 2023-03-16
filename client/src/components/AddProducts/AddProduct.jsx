@@ -35,7 +35,7 @@ const AddProduct = () => {
     formData.append("picture", picture);
     formData.append("category", category);
     formData.append("userId", user?._doc?._id);
-    formData.append("username", user?._doc?.firstName + user?._doc?.lastName);
+    formData.append("username", user?._doc?.firstName + " "+user?._doc?.lastName);
     formData.append("picturePath", picture.name);
 
     const response = await fetch(
