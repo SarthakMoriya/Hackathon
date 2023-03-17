@@ -28,7 +28,8 @@ export const register = async (req, res) => {
         password: passwordHash,
         picturePath,
         state,
-        city
+        city,
+        type
       });
       const savedFarmer = await newFarmer.save();
       res.status(201).json({ user: savedFarmer });
@@ -43,7 +44,8 @@ export const register = async (req, res) => {
         password: passwordHash,
         picturePath,
         state,
-        city
+        city,
+        type
       });
       const savedSeller = await newSeller.save();
       res.status(201).json({ user: savedSeller });
@@ -66,7 +68,7 @@ export const login = async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, 'process.env.JWT_SECRET');
     // delete farmer.password;
-    res.status(200).json({ token, user: { ...user } });
+    res.status(200).json({ token, user: { ...user }, type: user.type });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

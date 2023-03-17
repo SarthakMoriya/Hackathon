@@ -29,7 +29,8 @@ const farmerSchema = new mongoose.Schema({
     },
     city: { type: String, required: true },
     state: { type: String, required: true },
-    orders: { type: Array }
+    orders: { type: Array },
+    type:String
 }, { timestamps: true })
 //timestamps gives details like when was added updated ...
 

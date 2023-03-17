@@ -31,7 +31,7 @@ const Form = () => {
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
 
-  const notify = (message) => toast(`${message}`);
+  const notify = (message) => toast.success(`${message}`);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -73,29 +73,29 @@ const Form = () => {
         notify("Redirecting...!");
         setTimeout(() => {
           navigate("/home");
-          dispatch(setLogin({ user: data.user, token: data.token }));
+          dispatch(
+            setLogin({ user: data.user, token: data.token, type: data.type })
+          );
         }, 3000);
       }
-
     }
   };
   return (
     <div className="ask-question">
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
       <form onSubmit={handleSubmit}>
         {/* Same as */}
-        <ToastContainer />
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
         <Box
           display="grid"
           gap="30px"
@@ -160,7 +160,7 @@ const Form = () => {
                   }}
                 >
                   <option value="Farmer">Farmer</option>
-                  <option value="Seller">Seller</option>
+                  <option value="Seller">Customer</option>
                 </select>
               </Box>
             </>

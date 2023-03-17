@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Typography from "@mui/material/Typography";
 import Navbar from "../../components/Navbar/Navbar";
+import { ToastContainer, toast } from "react-toastify";
+
 import "./Buy.css";
 
 import Card from "@mui/material/Card";
@@ -11,16 +13,17 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { Box } from "@mui/material";
-
+import cartImg from "../../assets/trolley.png";
 const Buy = () => {
   const [products, setProducts] = useState([]);
   const [isFruits, setIsFruits] = useState(true);
   const [isCrops, setIsCrops] = useState(false);
   const [isVegetables, setIsVegetables] = useState(false);
   const [isDairy, setIsDairy] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(true);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const user = useSelector((state) => state.user);
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -30,8 +33,19 @@ const Buy = () => {
     console.log(cartItems);
   };
 
+  const notify = (message, error = "success") => {
+    if (error === "success") toast.success(`${message}`);
+    else if (error === "error") {
+      toast.error(`${message}`);
+    } else if (error === "info") {
+      toast.info(`${message}`);
+    }
+  };
+
   const handleBuy = () => {
-    console.log(cartItems[0]._id);
+    if (cartItems.length === 0) {
+      return notify(`No item added`, "error");
+    }
     cartItems.map(async (item) => {
       console.log(item._id, item.userId);
       const response = await fetch("http://localhost:8080/product/buy", {
@@ -40,11 +54,12 @@ const Buy = () => {
         body: JSON.stringify({
           productId: item._id,
           farmerId: item.userId,
-          customerId:user._doc._id
+          customerId: user._doc._id,
         }),
       });
       const data = await response.json();
       console.log(data);
+      notify(data.msg);
     });
   };
 
@@ -59,13 +74,30 @@ const Buy = () => {
     setProducts(data);
   };
 
+  const handleRemoveItems = (item) => {
+    const newItems = cartItems.filter((product) => product._id !== item._id);
+    setCartItems(newItems);
+    notify("1 item removed", "info");
+  };
   return (
     <div className="buy-main-container">
       <Navbar />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="main-container">
         <div className="left-sidebar">
           <button
-            className="button"
+            className={`button ${isDairy && "active"}`}
             onClick={() => {
               setIsDairy(true);
               setIsCrops(false);
@@ -76,7 +108,7 @@ const Buy = () => {
             Dairy Products
           </button>
           <button
-            className="button"
+            className={`button ${isFruits && "active"}`}
             onClick={() => {
               setIsDairy(false);
               setIsCrops(false);
@@ -87,7 +119,7 @@ const Buy = () => {
             Fruits
           </button>
           <button
-            className="button"
+            className={`button ${isVegetables && "active"}`}
             onClick={() => {
               setIsDairy(false);
               setIsCrops(false);
@@ -98,7 +130,7 @@ const Buy = () => {
             Vegetables
           </button>
           <button
-            className="button"
+            className={`button ${isCrops && "active"}`}
             onClick={() => {
               setIsDairy(false);
               setIsCrops(true);
@@ -107,6 +139,14 @@ const Buy = () => {
             }}
           >
             Crops
+          </button>
+          <button
+            className={`button ${isCrops && "active"}`}
+            onClick={() => {
+              setIsCartOpen(!isCartOpen);
+            }}
+          >
+            CART <img src={cartImg} width="18" />
           </button>
         </div>
         <div className="main-box">
@@ -123,7 +163,7 @@ const Buy = () => {
                       {product.name}
                     </Typography>
                     <Typography gutterBottom variant="h5" component="div">
-                      Sold by: {product.username}
+                    Sold by: <Link>{product.username}</Link>
                     </Typography>
                     <Typography variant="h4" color="text.secondary">
                       Lorem ipsum, dolor sit amet consectetur adipisicing elit.
@@ -140,19 +180,10 @@ const Buy = () => {
                       className="buy-btn"
                       onClick={() => {
                         handleCart(product);
+                        notify("1 Item added");
                       }}
                     >
-                      Buy
-                    </Button>
-                    <Button
-                      size="small"
-                      color="success"
-                      variant="outlined"
-                      className="buy-btn"
-                    >
-                      <Link to="/userpage">
-                        View more from {product.username}
-                      </Link>
+                      Add to cart
                     </Button>
                   </CardActions>
                 </Card>
@@ -168,8 +199,13 @@ const Buy = () => {
                     <Typography gutterBottom variant="h3" component="div">
                       {product.name}
                     </Typography>
-                    <Typography gutterBottom variant="h5" component="div">
-                      Sold by: {product.username}
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="div"
+                      title="View more "
+                    >
+                      Sold by: <Link>{product.username}</Link>
                     </Typography>
                     <Typography variant="h4" color="text.secondary">
                       Lorem ipsum, dolor sit amet consectetur adipisicing elit.
@@ -186,19 +222,10 @@ const Buy = () => {
                       className="buy-btn"
                       onClick={() => {
                         handleCart(product);
+                        notify("1 Item added");
                       }}
                     >
-                      Buy
-                    </Button>
-                    <Button
-                      size="small"
-                      color="success"
-                      variant="outlined"
-                      className="buy-btn"
-                    >
-                      <Link to="/userpage">
-                        View more from {product.username}
-                      </Link>
+                      Add to cart
                     </Button>
                   </CardActions>
                 </Card>
@@ -215,7 +242,7 @@ const Buy = () => {
                       {product.name}
                     </Typography>
                     <Typography gutterBottom variant="h5" component="div">
-                      Sold by: {product.username}
+                    Sold by: <Link>{product.username}</Link>
                     </Typography>
                     <Typography variant="h4" color="text.secondary">
                       Lorem ipsum, dolor sit amet consectetur adipisicing elit.
@@ -232,19 +259,10 @@ const Buy = () => {
                       className="buy-btn"
                       onClick={() => {
                         handleCart(product);
+                        notify("1 Item added");
                       }}
                     >
-                      Buy
-                    </Button>
-                    <Button
-                      size="small"
-                      color="success"
-                      variant="outlined"
-                      className="buy-btn"
-                    >
-                      <Link to="/userpage">
-                        View more from {product.username}
-                      </Link>
+                      Add to cart
                     </Button>
                   </CardActions>
                 </Card>
@@ -261,7 +279,7 @@ const Buy = () => {
                       {product.name}
                     </Typography>
                     <Typography gutterBottom variant="h5" component="div">
-                      Sold by: {product.username}
+                    Sold by: <Link>{product.username}</Link>
                     </Typography>
                     <Typography variant="h4" color="text.secondary">
                       Lorem ipsum, dolor sit amet consectetur adipisicing elit.
@@ -278,19 +296,10 @@ const Buy = () => {
                       className="buy-btn"
                       onClick={() => {
                         handleCart(product);
+                        notify("1 Item added");
                       }}
                     >
-                      Buy
-                    </Button>
-                    <Button
-                      size="small"
-                      color="success"
-                      variant="outlined"
-                      className="buy-btn"
-                    >
-                      <Link to="/userpage">
-                        View more from {product.username}
-                      </Link>
+                      Add to cart
                     </Button>
                   </CardActions>
                 </Card>
@@ -299,16 +308,8 @@ const Buy = () => {
           })}
         </div>
       </div>
-      <button
-        onClick={() => {
-          setIsCartOpen(!isCartOpen);
-        }}
-        className="cart-opener"
-      >
-        Cart
-      </button>
       {isCartOpen && (
-        <Box width="50%" height="50vh" className="cart">
+        <Box width="50%" className="cart">
           <Box
             display="flex"
             alignItems="flex-start"
@@ -335,9 +336,12 @@ const Buy = () => {
                   justifyContent="space-around"
                   className="cart-item"
                   key={item._id}
+                  onClick={() => {
+                    handleRemoveItems(item);
+                  }}
                 >
                   <Box>{item?.name}</Box>
-                  <Box>{item?.price}</Box>
+                  <Box>₹{item?.price}</Box>
                   <Box>
                     <img
                       src={`http://localhost:8080/assets/${item.picturePath}`}

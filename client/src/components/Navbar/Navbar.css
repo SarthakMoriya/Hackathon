@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela&display=swap');
+ 
+ .navbar {
+     overflow: hidden;
+     background-color: #71f0b5;
+     opacity: 0.95;
+     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+     border-bottom: 3px solid #71f0b5;
+
+ }
+ .nav-logo{
+    padding-left: 2%;
+ }
+ .logo{
+    border-radius: 100%;
+    width: 100px;
+    
+ }
+
+ .navbar-brand {
+     margin-left: 1%;
+     font-size: 35px;
+     color: black;
+     font-family: 'Varela', sans-serif;
+
+
+ }
+
+ .navbar-brand:hover {
+     color: #455a64;
+ }
+
+ .nav-links {
+     padding-left: 4%;
+ }
+
+ .nav-link {
+     font-size: 22px;
+     font-family: 'Varela', sans-serif;
+
+ }
+ .nav-item{
+    color: rgba(0, 0, 0, 0.55);
+    border-right: 1px solid rgba(0, 0, 0, 0.145);
+ }
+
+ .login a {
+     text-decoration: none;
+     color: rgba(0,0,0,0.55);
+     font-size: 21px;
+     padding-left: 1%;
+     font-family: 'Varela', sans-serif;
+ }
+
+ .login a:hover {
+     color: #455a64;
+ }
+
+.signin{
+    width: 20%;
+    margin-left: 85%;
+    padding-right: 3%;
+    border-right: 1px solid rgba(0, 0, 0, 0.145);
+}
+
+.nav-link{
+    color:black;
+    text-decoration: none;
+    border-bottom: 1px solid black;
+}
+.nav-link:nth-child(1){
+    color:black;
+    text-decoration: none;
+    border-bottom: 1px solid black;
+}
+.nav-link:hover{
+    color:white;
+    text-decoration: none;
+    /* border-right: 1px solid black; */
+    /* border-bottom: 1px solid black; */
+    transform: scale(0.9);
+    transition: all 0.3s ease
+}

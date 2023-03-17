@@ -20,7 +20,7 @@ export const createProduct = async (req, res) => {
         })
         const savedProduct = await product.save()
         console.log(savedProduct)
-        res.status(201).json({ product: savedProduct })
+        res.status(201).json({ product: savedProduct ,msg:"Product added successfully...!"})
     } catch (error) {
         res.status(500).json({ msg: "Only Farmers can add Products...!", error })
     }
@@ -49,7 +49,7 @@ export const buyProduct = async (req, res) => {
         await Farmers.updateOne({ _id: farmerId }, { "$push": { "orders": { "productId": `${productId}`, "customerId": `${customerId}` } } })
         await Sellers.updateOne({ _id: customerId }, { "$push": { "orders": { "productId": `${productId}`, "farmerId": `${farmerId}` } } })
         // res.status(200).json("ok")
-        res.status(200).json({ msg: "order placed" })
+        res.status(200).json({ msg: "Order placed successfully...!" })
 
     } catch (error) {
         res.status(500).json({ msg: "Internal Server Error...!", error })

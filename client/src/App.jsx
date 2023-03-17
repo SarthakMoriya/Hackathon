@@ -4,6 +4,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./themes/theme";
 import { useMemo } from "react";
+import { useSelector } from "react-redux";
 
 /**Pages Import */
 import Login from "./pages/Login/Login";
@@ -69,6 +70,7 @@ class BuggyCounter extends React.Component {
   }
 }
 function App() {
+  const user = useSelector((state) => state.user);
   const theme = useMemo(() => createTheme(themeSettings("light")), []);
   useEffect(() => {
     const successfulLookup = (position) => {
@@ -80,7 +82,6 @@ function App() {
         .then(console.log);
     };
     navigator.geolocation.getCurrentPosition(successfulLookup, console.log);
-
   });
   return (
     <ErrorBoundary>
@@ -90,11 +91,14 @@ function App() {
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <Routes>
-              <Route path="/home" element={<Home />} />
+              <Route path="/home" element={user ? <Home /> : <Login />} />
               <Route path="/" element={<Login />} />
-              <Route path="/sell" element={<Sell />} />
-              <Route path="/buy" element={<Buy />} />
-              <Route path="/orders/:userId" element={<Order />} />
+              <Route path="/sell" element={user ? <Sell /> : <Login />} />
+              <Route path="/buy" element={user ? <Buy /> : <Login />} />
+              <Route
+                path="/orders/:userId"
+                element={user ? <Order /> : <Login />}
+              />
             </Routes>
           </ThemeProvider>
         </BrowserRouter>

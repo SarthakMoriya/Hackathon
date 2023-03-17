@@ -47,7 +47,9 @@ const AddProduct = () => {
     );
     const data = await response.json();
     console.log(data);
+    notify(data.msg)
   };
+
   return (
     <Box display="flex" alignItems="center" justifyContent="center">
       <Box
@@ -60,6 +62,7 @@ const AddProduct = () => {
         padding="20px"
         borderRadius="2%"
         boxShadow="rgba(17, 12, 46, 0.15) 0px 48px 100px 0px"
+        marginTop='200px'
       >
         <Typography variant="h3">ADD PRODUCT</Typography>
         <ToastContainer
