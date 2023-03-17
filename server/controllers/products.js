@@ -38,7 +38,7 @@ export const getAllProducts = async (req, res) => {
 
 export const buyProduct = async (req, res) => {
     try {
-        const { productId, farmerId, customerId } = req.body
+        const { productId, farmerId, customerId ,status} = req.body
         // console.log(userId, productId)
         const isProduct = await Products.findById(productId);
         const isFarmer = await Farmers.findById(farmerId)
@@ -46,8 +46,8 @@ export const buyProduct = async (req, res) => {
         console.log(isProduct, isFarmer)
         // // if (!isProduct || !isFarmer) return res.status(404).json({ msg: "Error wrong item or Seller not found" })
 
-        await Farmers.updateOne({ _id: farmerId }, { "$push": { "orders": { "productId": `${productId}`, "customerId": `${customerId}` } } })
-        await Sellers.updateOne({ _id: customerId }, { "$push": { "orders": { "productId": `${productId}`, "farmerId": `${farmerId}` } } })
+        await Farmers.updateOne({ _id: farmerId }, { "$push": { "orders": { "productId": `${productId}`, "customerId": `${customerId}` , "status": `${status}`} } })
+        await Sellers.updateOne({ _id: customerId }, { "$push": { "orders": { "productId": `${productId}`, "farmerId": `${farmerId}`, "status": `${status}` } } })
         // res.status(200).json("ok")
         res.status(200).json({ msg: "Order placed successfully...!" })
 

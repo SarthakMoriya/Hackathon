@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Typography from "@mui/material/Typography";
 import Navbar from "../../components/Navbar/Navbar";
 import { ToastContainer, toast } from "react-toastify";
+import { motion } from "framer-motion";
 
 import "./Buy.css";
 
@@ -55,6 +56,7 @@ const Buy = () => {
           productId: item._id,
           farmerId: item.userId,
           customerId: user._doc._id,
+          status:"ordered"
         }),
       });
       const data = await response.json();
@@ -149,167 +151,239 @@ const Buy = () => {
             CART <img src={cartImg} width="18" />
           </button>
         </div>
-        <div className="main-box">
+        <motion.div className="main-box">
           {products.map((product) => {
             if (product.category === "Crop" && isCrops) {
               return (
-                <Card sx={{ maxWidth: 345 }} className="card" key={product._id}>
-                  <CardMedia
-                    sx={{ height: 140 }}
-                    image={`http://localhost:8080/assets/${product.picturePath}`}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h3" component="div">
-                      {product.name}
-                    </Typography>
-                    <Typography gutterBottom variant="h5" component="div">
-                    Sold by: <Link>{product.username}</Link>
-                    </Typography>
-                    <Typography variant="h4" color="text.secondary">
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                      Obcaecati asperiores modi eaque exercitationem praesentium
-                      reprehenderit neque
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="large">₹{product.price}</Button>
-                    <Button
-                      size="large"
-                      color="success"
-                      variant="outlined"
-                      className="buy-btn"
-                      onClick={() => {
-                        handleCart(product);
-                        notify("1 Item added");
-                      }}
-                    >
-                      Add to cart
-                    </Button>
-                  </CardActions>
-                </Card>
+                <motion.div
+                  className="card"
+                  initial={{ opacity: 0, y: 80 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ ease: "easeOut", duration: 1 }}
+                  whileInView={{ opacity: 1 }}
+                  whileHover={{
+                    scale: 1.1,
+                    transition: { duration: 0.5, ease: "easeIn" },
+                  }}
+                >
+                  <Card
+                    sx={{ maxWidth: 345 }}
+                    className="card"
+                    key={product._id}
+                  >
+                    <CardMedia
+                      sx={{ height: 140 }}
+                      image={`http://localhost:8080/assets/${product.picturePath}`}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h3" component="div">
+                        {product.name}
+                      </Typography>
+                      <Typography gutterBottom variant="h5" component="div">
+                        Sold by: <Link>{product.username}</Link>
+                      </Typography>
+                      <Typography variant="h4" color="text.secondary">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Obcaecati asperiores modi eaque exercitationem
+                        praesentium reprehenderit neque
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button size="large">₹{product.price}</Button>
+                      <Button
+                        size="large"
+                        color="success"
+                        variant="outlined"
+                        className="buy-btn"
+                        onClick={() => {
+                          handleCart(product);
+                          notify("1 Item added");
+                        }}
+                      >
+                        Add to cart
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </motion.div>
               );
             } else if (product.category === "Friuts" && isFruits) {
               return (
-                <Card sx={{ maxWidth: 345 }} className="card" key={product._id}>
-                  <CardMedia
-                    sx={{ height: 140 }}
-                    image={`http://localhost:8080/assets/${product.picturePath}`}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h3" component="div">
-                      {product.name}
-                    </Typography>
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="div"
-                      title="View more "
-                    >
-                      Sold by: <Link>{product.username}</Link>
-                    </Typography>
-                    <Typography variant="h4" color="text.secondary">
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                      Obcaecati asperiores modi eaque exercitationem praesentium
-                      reprehenderit neque
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="large">₹{product.price}</Button>
-                    <Button
-                      size="large"
-                      color="success"
-                      variant="outlined"
-                      className="buy-btn"
-                      onClick={() => {
-                        handleCart(product);
-                        notify("1 Item added");
-                      }}
-                    >
-                      Add to cart
-                    </Button>
-                  </CardActions>
-                </Card>
+                <motion.div
+                  className="card"
+                  initial={{ opacity: 0, y: 80 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ ease: "easeOut", duration: 1 }}
+                  whileInView={{ opacity: 1 }}
+                  whileHover={{
+                    scale: 1.1,
+                    transition: { duration: 0.5, ease: "easeIn" },
+                  }}
+                >
+                  <Card sx={{ maxWidth: 345 }} className="" key={product._id}>
+                    <CardMedia
+                      sx={{ height: 140 }}
+                      image={`http://localhost:8080/assets/${product.picturePath}`}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h3" component="div">
+                        {product.name}
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                        title="View more "
+                      >
+                        Sold by: <Link>{product.username}</Link>
+                      </Typography>
+                      <Typography variant="h4" color="text.secondary">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Obcaecati asperiores modi eaque exercitationem
+                        praesentium reprehenderit neque
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button size="large">₹{product.price}</Button>
+                      <Button
+                        size="large"
+                        color="success"
+                        variant="outlined"
+                        className="buy-btn"
+                        onClick={() => {
+                          handleCart(product);
+                          notify("1 Item added");
+                        }}
+                      >
+                        Add to cart
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </motion.div>
               );
             } else if (product.category === "Vegetables" && isVegetables) {
               return (
-                <Card sx={{ maxWidth: 345 }} className="card" key={product._id}>
-                  <CardMedia
-                    sx={{ height: 140 }}
-                    image={`http://localhost:8080/assets/${product.picturePath}`}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h3" component="div">
-                      {product.name}
-                    </Typography>
-                    <Typography gutterBottom variant="h5" component="div">
-                    Sold by: <Link>{product.username}</Link>
-                    </Typography>
-                    <Typography variant="h4" color="text.secondary">
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                      Obcaecati asperiores modi eaque exercitationem praesentium
-                      reprehenderit neque
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="large">₹{product.price}</Button>
-                    <Button
-                      size="large"
-                      color="success"
-                      variant="outlined"
-                      className="buy-btn"
-                      onClick={() => {
-                        handleCart(product);
-                        notify("1 Item added");
-                      }}
-                    >
-                      Add to cart
-                    </Button>
-                  </CardActions>
-                </Card>
+                <motion.div
+                  className="card"
+                  initial={{ opacity: 0, y: 80 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ ease: "easeOut", duration: 1 }}
+                  whileInView={{ opacity: 1 }}
+                  whileHover={{
+                    scale: 1.1,
+                    transition: { duration: 0.5, ease: "easeIn" },
+                  }}
+                >
+                  <Card
+                    sx={{ maxWidth: 345 }}
+                    className="card"
+                    key={product._id}
+                  >
+                    <CardMedia
+                      sx={{ height: 140 }}
+                      image={`http://localhost:8080/assets/${product.picturePath}`}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h3" component="div">
+                        {product.name}
+                      </Typography>
+                      <Typography gutterBottom variant="h5" component="div">
+                        Sold by: <Link>{product.username}</Link>
+                      </Typography>
+                      <Typography variant="h4" color="text.secondary">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Obcaecati asperiores modi eaque exercitationem
+                        praesentium reprehenderit neque
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button size="large">₹{product.price}</Button>
+                      <Button
+                        size="large"
+                        color="success"
+                        variant="outlined"
+                        className="buy-btn"
+                        onClick={() => {
+                          handleCart(product);
+                          notify("1 Item added");
+                        }}
+                      >
+                        Add to cart
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </motion.div>
               );
             } else if (product.category === "Dairy" && isDairy) {
               return (
-                <Card sx={{ maxWidth: 345 }} className="card" key={product._id}>
-                  <CardMedia
-                    sx={{ height: 140 }}
-                    image={`http://localhost:8080/assets/${product.picturePath}`}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h3" component="div">
-                      {product.name}
-                    </Typography>
-                    <Typography gutterBottom variant="h5" component="div">
-                    Sold by: <Link>{product.username}</Link>
-                    </Typography>
-                    <Typography variant="h4" color="text.secondary">
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                      Obcaecati asperiores modi eaque exercitationem praesentium
-                      reprehenderit neque
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="large">₹{product.price}</Button>
-                    <Button
-                      size="large"
-                      color="success"
-                      variant="outlined"
-                      className="buy-btn"
-                      onClick={() => {
-                        handleCart(product);
-                        notify("1 Item added");
-                      }}
-                    >
-                      Add to cart
-                    </Button>
-                  </CardActions>
-                </Card>
+                <motion.div
+                  className="card"
+                  initial={{ opacity: 0, y: 80 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ ease: "easeOut", duration: 1 }}
+                  whileInView={{ opacity: 1 }}
+                  whileHover={{
+                    scale: 1.1,
+                    transition: { duration: 0.5, ease: "easeIn" },
+                  }}
+                >
+                  <Card
+                    sx={{ maxWidth: 345 }}
+                    className="card"
+                    key={product._id}
+                  >
+                    <CardMedia
+                      sx={{ height: 140 }}
+                      image={`http://localhost:8080/assets/${product.picturePath}`}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h3" component="div">
+                        {product.name}
+                      </Typography>
+                      <Typography gutterBottom variant="h5" component="div">
+                        Sold by: <Link>{product.username}</Link>
+                      </Typography>
+                      <Typography variant="h4" color="text.secondary">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Obcaecati asperiores modi eaque exercitationem
+                        praesentium reprehenderit neque
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button size="large">₹{product.price}</Button>
+                      <Button
+                        size="large"
+                        color="success"
+                        variant="outlined"
+                        className="buy-btn"
+                        onClick={() => {
+                          handleCart(product);
+                          notify("1 Item added");
+                        }}
+                      >
+                        Add to cart
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </motion.div>
               );
             }
           })}
-        </div>
+        </motion.div>
       </div>
       {isCartOpen && (
-        <Box width="50%" className="cart">
+        <motion.div
+          style={{ width: "50%" }}
+          className="cart"
+          initial={{ opacity: 0, y: 80 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ ease: "easeOut", duration: 1 }}
+          whileInView={{ opacity: 1 }}
+          whileHover={{
+            scale: 1.1,
+            transition: { duration: 0.5, ease: "easeIn" },
+          }}
+          exit={{ opacity:0}}
+        >
           <Box
             display="flex"
             alignItems="flex-start"
@@ -362,7 +436,7 @@ const Buy = () => {
           >
             Buy
           </button>
-        </Box>
+        </motion.div>
       )}
     </div>
   );

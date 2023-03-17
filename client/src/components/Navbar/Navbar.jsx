@@ -9,7 +9,6 @@ import "./Navbar.css";
 import { Box, Button, useTheme } from "@mui/material";
 function Navbar() {
   const user = useSelector((state) => state.user);
-  console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { palette } = useTheme();

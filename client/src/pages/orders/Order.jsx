@@ -5,13 +5,12 @@ import { useSelector, useDispatch } from "react-redux";
 import "./Order.css";
 
 const Order = () => {
-  let productsArray = [];
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [orders, setOrders] = useState([]);
   const [currentOrder, setCurrentOrder] = useState([]);
   const fetchOrders = () => {
     setOrders(user._doc.orders);
+    console.log(orders, user);
   };
 
   const getProduct = async () => {
@@ -20,8 +19,11 @@ const Order = () => {
         `http://localhost:8080/product/buy/${product?.productId}`
       );
       const data = await response.json();
+      console.log(data);
       setCurrentOrder((prevState) => [...prevState, data]);
     });
+    console.log("PRODUCTS INFO ACQUIRED");
+    console.log(currentOrder);
   };
   useEffect(() => {
     fetchOrders();
@@ -39,7 +41,7 @@ const Order = () => {
             flexDirection: "column",
             border: "1px solid black",
             width: "50%",
-            backgroundColor:'#E6FBFF'
+            backgroundColor: "#E6FBFF",
           }}
         >
           <Box
@@ -48,7 +50,7 @@ const Order = () => {
               alignItems: "center",
               justifyContent: "space-around",
               width: "100%",
-              backgroundColor:'#00353F'
+              backgroundColor: "#00353F",
             }}
           >
             <Typography variant="h3">Name</Typography>
@@ -56,8 +58,8 @@ const Order = () => {
             <Typography variant="h3">Image</Typography>
             <Typography variant="h3">Status</Typography>
           </Box>
-          {currentOrder.map(product => {
-            console.log(product.product)
+          {currentOrder.map((product, i) => {
+            console.log(product);
             return (
               <Box
                 key={product.product?._id}
@@ -70,11 +72,14 @@ const Order = () => {
                   padding: "15px",
                 }}
               >
-                {product._id}
                 <Typography variant="h4">{product.product.name}</Typography>
                 <Typography variant="h4">₹{product.product.price}</Typography>
-                <img src={`http://localhost:8080/assets/${product.product.picturePath}`} width='80' height='80'/>
-                <Typography variant="h4">₹{product.product.price}</Typography>
+                <img
+                  src={`http://localhost:8080/assets/${product.product.picturePath}`}
+                  width="80"
+                  height="80"
+                />
+                <Typography variant="h4">{orders[i].status}</Typography>
               </Box>
             );
           })}
