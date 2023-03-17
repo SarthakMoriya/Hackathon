@@ -5,7 +5,8 @@ import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./themes/theme";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
-
+import { useScroll } from "framer-motion"
+import { useMotionValueEvent } from "framer-motion"
 /**Pages Import */
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";

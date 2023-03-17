@@ -1,0 +1,13 @@
+  @import url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');     
+  @import url('https://fonts.googleapis.com/css2?family=Varela&display=swap');       
+
+.benefits{
+    margin: 3%;
+    margin-top: 0%;
+}
+
+
+.benefits p{
+    font-size: 24px;
+    font-family: 'Varela', sans-serif;
+}
