@@ -91,10 +91,12 @@ export const buyOrder = async (req, res) => {
 export const fetchOrder = async (req, res) => {
     try {
         const { userId, type } = req.params;
+        console.log(userId, type)
         const orders = await Orders.find();
         if (type === 'Seller') {
-            const userOrders = orders.filter(order => order.customerId === userId);
-            return res.status(200).json({ userOrders })
+            let userOrders = orders.filter(order => order.customerId === userId);
+            let productIds = userOrders.map(order => order.productId)
+            return res.status(200).json({ productIds: productIds, userOrdersIds: userOrders })
         } else if (type === 'Farmer') {
             const userOrders = orders.filter(order => order.farmerId === userId);
             return res.status(200).json({ userOrders })

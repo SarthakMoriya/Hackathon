@@ -6,7 +6,37 @@ import "./Order.css";
 import { resetOrders, setOrders } from "../../state";
 
 const Order = () => {
+  const user = useSelector((state) => state.user._doc);
+  const [productIds, setProductIds] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [isVisible, setIsVisible] = useState(true)
 
+  const fetchProductIds = async () => {
+    const response = await fetch(
+      `http://localhost:8080/product/buy/${user._id}/${user.type}`
+    );
+
+    const data = await response.json();
+    setProductIds(() => data.productIds);
+  };
+
+  const fetchProducts = () => {
+    productIds.map(async (productId) => {
+      const response = await fetch(
+        `http://localhost:8080/product/buy/${productId}`
+      );
+      const data = await response.json();
+      setProducts((prevState) => [...prevState, data]);
+    });
+    showProducts();
+    // setIsVisible(!isVisible);
+  };
+  const showProducts = () => {
+    console.log(products);
+  };
+  useEffect(() => {
+    fetchProductIds();
+  }, []);
   return (
     <div>
       <Navbar />
@@ -37,7 +67,6 @@ const Order = () => {
             <Typography variant="h3">Status</Typography>
           </Box>
           {[].map((product, i) => {
-
             return (
               <Box
                 // key={orders[`${i}`]?._id}
@@ -80,6 +109,11 @@ const Order = () => {
             );
           })}
         </Box>
+        {/* {console.log("ProductIds")}
+        {console.log(productIds)}
+        {console.log("Products")}
+        {console.log(products)} */}
+        {isVisible && <button onClick={fetchProducts}>FetchOrders</button>}
       </div>
     </div>
   );
