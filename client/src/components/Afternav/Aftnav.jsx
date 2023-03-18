@@ -3,16 +3,7 @@ import "./Aftnav2.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { motion } from "framer-motion";
 import image8 from "../../assets/main.png";
-const scaleVariants = {
-  whileInView: {
-    scale: [0, 1],
-    opacity: [0, 1],
-    transition: {
-      duration: 1,
-      ease: "easeInOut",
-    },
-  },
-};
+
 
 
 
@@ -29,7 +20,7 @@ const Aftnav = () => {
       //   stiffness: 200,
       //   duration: 5,
       // }}
-      whileInView={{ x: [-100, 0], opacity: [0, 1] }}
+      whileInView={{ x: [-200, 0], opacity: [0, 1] }}
       transition={{ duration: 0.5 }}
     >
       <div className="aftnav" style={{ height: "80vh" }}>

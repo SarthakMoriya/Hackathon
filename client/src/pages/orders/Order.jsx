@@ -3,32 +3,10 @@ import Navbar from "../../components/Navbar/Navbar";
 import { Box, Typography } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import "./Order.css";
+import { resetOrders, setOrders } from "../../state";
 
 const Order = () => {
-  const user = useSelector((state) => state.user);
-  const [orders, setOrders] = useState([]);
-  const [currentOrder, setCurrentOrder] = useState([]);
-  const fetchOrders = () => {
-    setOrders(user._doc.orders);
-    console.log(orders, user);
-  };
 
-  const getProduct = async () => {
-    orders.map(async (product) => {
-      const response = await fetch(
-        `http://localhost:8080/product/buy/${product?.productId}`
-      );
-      const data = await response.json();
-      console.log(data);
-      setCurrentOrder((prevState) => [...prevState, data]);
-    });
-    console.log("PRODUCTS INFO ACQUIRED");
-    console.log(currentOrder);
-  };
-  useEffect(() => {
-    fetchOrders();
-    getProduct();
-  }, [orders]);
   return (
     <div>
       <Navbar />
@@ -58,11 +36,11 @@ const Order = () => {
             <Typography variant="h3">Image</Typography>
             <Typography variant="h3">Status</Typography>
           </Box>
-          {currentOrder.map((product, i) => {
-            console.log(product);
+          {[].map((product, i) => {
+
             return (
               <Box
-                key={product.product?._id}
+                // key={orders[`${i}`]?._id}
                 sx={{
                   display: "flex",
                   alignItems: "center",
@@ -72,14 +50,32 @@ const Order = () => {
                   padding: "15px",
                 }}
               >
-                <Typography variant="h4">{product.product.name}</Typography>
-                <Typography variant="h4">₹{product.product.price}</Typography>
+                {/* <Typography variant="h4">{product.product.name}</Typography> */}
+                {/* <Typography variant="h4">₹{product.product.price}</Typography> */}
                 <img
-                  src={`http://localhost:8080/assets/${product.product.picturePath}`}
+                  // src={`http://localhost:8080/assets/${product.product.picturePath}`}
                   width="80"
                   height="80"
                 />
-                <Typography variant="h4">{orders[i].status}</Typography>
+                {/* {user._doc.type === "Seller" && (
+                  // <Typography variant="h4">{orders[i].status}</Typography>
+                  <Typography variant="h4">hihi</Typography>
+                )} */}
+
+                {/* {user._doc.type === "Farmer" && (
+                  <Box sx={{ gridColumn: "span 4", border: "1px solid black" }}>
+                    <select
+                      defaultValue="Ordered"
+                      onChange={(e) => {
+                        setOrderStatus(e.target.value);
+                        console.log(orderStatus);
+                      }}
+                    >
+                      <option value="Farmer">Ordered</option>
+                      <option value="Seller">Delivered</option>
+                    </select>
+                  </Box>
+                )} */}
               </Box>
             );
           })}

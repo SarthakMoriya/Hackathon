@@ -22,17 +22,17 @@ function Navbar() {
 
   return (
     <div>
-      <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
-        <div class="container-fluid">
+      <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+        <div className="container-fluid">
           <div className="nav-logo">
             <img src="" alt="" className="logo" />
           </div>
-          <Link class="navbar-brand" to="/home">
+          <Link className="navbar-brand" to="/home">
             <b>Digital Farmer</b>
           </Link>
 
           <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent"
@@ -40,35 +40,35 @@ function Navbar() {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-links">
-              {/* <li class="nav-item">
-                <Link class="nav-link p-3" aria-current="page" to="/home">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0 nav-links">
+              {/* <li className="nav-item">
+                <Link className="nav-link p-3" aria-current="page" to="/home">
                   Add
                 </Link>
               </li> */}
               { user?._doc?.type === "Farmer" && (
-                <li class="nav-item">
-                  <Link class="nav-link p-3" to="/sell">
+                <li className="nav-item">
+                  <Link className="nav-link p-3" to="/sell">
                     Add Product
                   </Link>
                 </li>
               )}
 
-              <li class="nav-item">
-                <Link class="nav-link p-3" to="/buy">
+              <li className="nav-item">
+                <Link className="nav-link p-3" to="/buy">
                   Buy
                 </Link>
               </li>
-              <li class="nav-item">
-                <Link class="nav-link p-3" to={`/orders/${user._doc._id}`}>
+              <li className="nav-item">
+                <Link className="nav-link p-3" to={`/orders/${user._doc._id}`}>
                   Orders
                 </Link>
               </li>
             </ul>
-            <div class="row login">
+            <div className="row login">
               <div className=" col-lg-6 col-sm-12">
                 <Box>
                   <Button

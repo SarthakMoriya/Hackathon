@@ -20,7 +20,7 @@ const scaleVariants = {
 
 const Middlesection = () => {
   return (
-    <motion.div>
+    <motion.div >
       <div className="middle-section">
         <div className="container-fluid">
           <motion.div
@@ -38,7 +38,7 @@ const Middlesection = () => {
             <motion.div
               className=" col col-lg-12 "
               whileInView={{ y: [100, 0], scale: [0, 1], opacity: [0, 1] }}
-              transition={{ duration: .5 }}
+              transition={{ duration: 0.5 }}
             >
               <div className="main-heading">
                 <div className="flicker">
@@ -50,13 +50,25 @@ const Middlesection = () => {
             </motion.div>
             <motion.div
               className="col col-lg-12 size"
-              whileInView={{ y: [100, 0] }}
-              transition={{ duration: 1 }}
+              // whileInView={{ y: [100, 0] }}
+              // transition={{ duration: 1 }}
             >
               <div className="list">
                 <ul typeof="circles">
-                  <h4 className="list-head">INCREASED SALES</h4>
-                  <li className="list-item">
+                  <motion.h4
+                    className="list-head"
+                    initial={{opacity:1}}
+                    whileInView={{ y: [100, 0] ,opacity:[0,1]}}
+                    transition={{ duration: 1 }}
+                    exit={{opacity:0}}
+                  >
+                    INCREASED SALES
+                  </motion.h4>
+                  <motion.li
+                    className="list-item"
+                    whileInView={{ y: [100, 0] }}
+                    transition={{ duration: 1 }}
+                  >
                     24*7/365 availability of goods and unlimited customer reach
                     generate more sale. When you aren’t limited to the local
                     market or to physical store capacity, you automatically sell
@@ -66,20 +78,38 @@ const Middlesection = () => {
                     running a store and making more capital at the same time,
                     you can save a significant amount of money and expand your
                     business faster.
-                  </li>
+                  </motion.li>
 
-                  <h4 className="list-head">REDUCED OPERATIONAL EXPENSES</h4>
-                  <li className="list-item">
+                  <motion.h4
+                    whileInView={{ y: [100, 0] }}
+                    transition={{ duration: 1 }}
+                    className="list-head"
+                  >
+                    REDUCED OPERATIONAL EXPENSES
+                  </motion.h4>
+                  <motion.li
+                    whileInView={{ y: [100, 0] }}
+                    transition={{ duration: 1 }}
+                    className="list-item"
+                  >
                     E-commerce is the most economical way to grow your retail
                     business. It doesn’t require high levels of initial capital
                     and it’s very cost-effective. Most of the investment is
                     repaid by early sales profits.
-                  </li>
+                  </motion.li>
 
-                  <h4 className="list-head">
+                  <motion.h4
+                    whileInView={{ y: [100, 0] }}
+                    transition={{ duration: 1 }}
+                    className="list-head"
+                  >
                     INCREASED AVAILABILITY OF PRODUCTS AND SERVICES
-                  </h4>
-                  <li className="list-item">
+                  </motion.h4>
+                  <motion.li
+                    whileInView={{ y: [100, 0] }}
+                    transition={{ duration: 1 }}
+                    className="list-item"
+                  >
                     With products and services listed online, retailers have a
                     better chance to reach out their customers and promote their
                     businesses. Your products and services are constantly
@@ -90,10 +120,21 @@ const Middlesection = () => {
                     also give you limitless opportunities to present your items
                     in an aesthetically pleasing way and stand out from the
                     crowd.
-                  </li>
+                  </motion.li>
 
-                  <h4 className="list-head"> A BROADER RANGE OF CUSTOMERS</h4>
-                  <li className="list-item">
+                  <motion.h4
+                    whileInView={{ y: [100, 0] }}
+                    transition={{ duration: 1 }}
+                    className="list-head"
+                  >
+                    {" "}
+                    A BROADER RANGE OF CUSTOMERS
+                  </motion.h4>
+                  <motion.li
+                    whileInView={{ y: [100, 0] }}
+                    transition={{ duration: 1 }}
+                    className="list-item"
+                  >
                     There is no doubt that e-commerce platforms help sellers
                     reach buyers globally and sell their goods on the wider
                     market. You’re scaling the business globally and being
@@ -101,10 +142,20 @@ const Middlesection = () => {
                     There is no limit to whom and where you reach. Broadening
                     your business horizons not only earns you more money but
                     helps your business grow.
-                  </li>
+                  </motion.li>
 
-                  <h4 className="list-head">SIMPLIFIED BUYING PROCESS</h4>
-                  <li className="list-item">
+                  <motion.h4
+                    whileInView={{ y: [100, 0] }}
+                    transition={{ duration: 1 }}
+                    className="list-head"
+                  >
+                    SIMPLIFIED BUYING PROCESS
+                  </motion.h4>
+                  <motion.li
+                    whileInView={{ y: [100, 0] }}
+                    transition={{ duration: 1 }}
+                    className="list-item"
+                  >
                     The most convenient aspect of e-commerce is that the
                     customer can purchase directly from you after searching for
                     an item online, without leaving home or interacting with a
@@ -116,10 +167,20 @@ const Middlesection = () => {
                     shopping. That’s what makes e-commerce an attractive
                     alternative for them. As a retailer, you need to meet them
                     online and give them what they’re looking for.
-                  </li>
+                  </motion.li>
 
-                  <h4 className="list-head">AUTOMATION</h4>
-                  <li className="list-item">
+                  <motion.h4
+                    whileInView={{ y: [100, 0] }}
+                    transition={{ duration: 1 }}
+                    className="list-head"
+                  >
+                    AUTOMATION
+                  </motion.h4>
+                  <motion.li
+                    whileInView={{ y: [100, 0] }}
+                    transition={{ duration: 1 }}
+                    className="list-item"
+                  >
                     E-commerce platforms offer full automation, including
                     finance systems, inventory, shipping and customer service.
                     That means everything is in one place and can easily be
@@ -129,7 +190,7 @@ const Middlesection = () => {
                     simple solutions give you more time to grow your business
                     and keep your customers happy at the same time, and all of
                     this without hiring additional team members.
-                  </li>
+                  </motion.li>
                 </ul>
               </div>
             </motion.div>
