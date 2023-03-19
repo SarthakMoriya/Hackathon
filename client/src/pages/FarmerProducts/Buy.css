@@ -1,0 +1,145 @@
+.buy-main-container {
+    position: absolute;
+    width: 100%;
+}
+
+.main-container {
+    display: flex;
+    width: 100%;
+    margin-top: 20px;
+    background-color: #17B486;
+    margin-top: 20px;
+}
+
+.left-sidebar {
+    border: 1px solid black;
+    width: 20%;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    flex-direction: column;
+}
+
+.left-sidebar>button:nth-child(1) {
+    margin-top: 140px;
+}
+
+.left-sidebar>button {
+    /* margin-top: 10px;
+    padding: 20px;
+    font-size: 25px; */
+    text-transform: uppercase;
+    /* border: 1px solid green; */
+    /* margin-right: 10px; */
+    /* margin-left: 10px; */
+    /* background-color: #58e073; */
+    /* color: rgba(0, 0, 0, 0.4); */
+    width: 100%;
+    transition: all 0.4s ease-in-out;
+}
+
+.left-sidebar>h6:hover {
+    color: rgba(0, 0, 0, 1);
+    cursor: pointer;
+    background-color: #58e07359;
+    opacity: 0.1;
+    transform: Scale(0.95);
+}
+
+.main-box {
+    border: 1px solid black;
+    width: 80%;
+    /* height: 80vh; */
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card {
+    backdrop-filter: blur(16px) saturate(200%);
+    -webkit-backdrop-filter: blur(16px) saturate(200%);
+    background-color: rgba(231, 184, 184, 0.47);
+    border-radius: 12px;
+    border: 1px solid rgba(209, 213, 219, 0.3);
+    /* width: 40%; */
+    margin-top: 20px;
+}
+
+.buy-btn:hover {
+    border: '1px solid black';
+}
+
+a {
+    text-decoration: none;
+    color: #03891d;
+    transition: all 0.6s ease-in-out;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #58e0735b;
+}
+
+
+.button {
+    width: 140px;
+    height: 45px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: none;
+    /* border-radius: 45px; */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    margin-top: 10px;
+}
+
+.button:hover {
+    background-color: #2EE59D;
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.cart-opener {
+    position: absolute;
+    top: 17px;
+    left: 1915px;
+    padding: 10px;
+}
+
+.cart {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 283px;
+    left: 740px;
+    padding: 10px;
+    background-color: aliceblue;
+}
+
+.cart>button {
+    width: 100%;
+}
+
+.cart-item {
+    border-bottom: 1px solid #000;
+}
+
+.cart-item>div {
+    padding: 10px;
+
+}
+
+.active {
+    background-color: #71f0b5;
+    border:1px solid rgba(0, 0, 0, 0.297);
+}

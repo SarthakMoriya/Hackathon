@@ -1,0 +1,15 @@
+.search-box {
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.cards-section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap:30px;
+    background-color: #17B486;
+    height: 100vh;
+}

@@ -13,6 +13,7 @@ import Stripe from 'stripe'
 /**Controller and Routers*/
 import authRouter from './routes/authRoutes.js'
 import productRouter from './routes/productRoutes.js'
+import farmersRouter from './routes/farmerRoutes.js'
 import { register } from "./controllers/auth.js";
 import { createProduct } from './controllers/products.js'
 
@@ -48,6 +49,7 @@ app.post('/auth/register', upload.single('picture'), register)
 app.post('/product/createProduct', upload.single('picture'), createProduct)
 app.use('/auth', authRouter)
 app.use('/product', productRouter)
+app.use('/farmers',farmersRouter)
 
 
 /**DataBase Connection */

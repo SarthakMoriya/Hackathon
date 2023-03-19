@@ -33,13 +33,13 @@ const Carousal = () => {
         data-bs-ride="carousel"
       >
         <div class="carousel-inner">
-          <div class="carousel-item active" data-bs-interval="4600">
+          <div class="carousel-item active" data-bs-interval="2600">
             <img src={picture} class="d-block w-100" alt="..." />
           </div>
-          <div class="carousel-item" data-bs-interval="3600">
+          <div class="carousel-item" data-bs-interval="2600">
             <img src={picture2} class="d-block w-100" alt="..." />
           </div>
-          <div class="carousel-item" data-bs-interval="3600">
+          <div class="carousel-item" data-bs-interval="2600">
             <img src={picture3} class="d-block w-100" alt="..." />
           </div>
         </div>

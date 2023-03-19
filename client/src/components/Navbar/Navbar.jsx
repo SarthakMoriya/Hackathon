@@ -56,10 +56,17 @@ function Navbar() {
                   </Link>
                 </li>
               )}
+              { user?._doc?.type === "Seller" && (
+                <li className="nav-item">
+                  <Link className="nav-link p-3" to="/farmers">
+                    Farmers
+                  </Link>
+                </li>
+              )}
 
               <li className="nav-item">
                 <Link className="nav-link p-3" to="/buy">
-                  Buy
+                  Shop
                 </Link>
               </li>
               <li className="nav-item">

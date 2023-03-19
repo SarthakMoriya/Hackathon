@@ -7,9 +7,8 @@ import { resetOrders, setOrders } from "../../state";
 
 const Order = () => {
   const user = useSelector((state) => state.user._doc);
-  const [productIds, setProductIds] = useState([]);
   const [products, setProducts] = useState([]);
-  const [isVisible, setIsVisible] = useState(true)
+  const [orderStatus, setOrderStatus] = useState("");
 
   const fetchProductIds = async () => {
     const response = await fetch(
@@ -17,26 +16,28 @@ const Order = () => {
     );
 
     const data = await response.json();
-    setProductIds(() => data.productIds);
+    setProducts(() => data);
   };
 
-  const fetchProducts = () => {
-    productIds.map(async (productId) => {
-      const response = await fetch(
-        `http://localhost:8080/product/buy/${productId}`
-      );
-      const data = await response.json();
-      setProducts((prevState) => [...prevState, data]);
-    });
-    showProducts();
-    // setIsVisible(!isVisible);
-  };
-  const showProducts = () => {
-    console.log(products);
-  };
   useEffect(() => {
     fetchProductIds();
   }, []);
+
+  const updateOrderStatus = async (product, order) => {
+    const status = order.status;
+    console.log("status::" ,status)
+    const updatedStatus = status === "Ordered" ? "Delivered" : "Ordered";
+    console.log("UpdatedStatus::" , updatedStatus)
+    const response = await fetch(`http://localhost:8080/product/updateorder`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ orderId: order._id, status: updatedStatus }),
+    });
+
+    const data = await response.json();
+    console.log(data);
+  };
+
   return (
     <div>
       <Navbar />
@@ -66,10 +67,10 @@ const Order = () => {
             <Typography variant="h3">Image</Typography>
             <Typography variant="h3">Status</Typography>
           </Box>
-          {[].map((product, i) => {
+          {products.products?.map((product, i) => {
             return (
               <Box
-                // key={orders[`${i}`]?._id}
+                key={products.userOrders[i]?._id}
                 sx={{
                   display: "flex",
                   alignItems: "center",
@@ -79,41 +80,38 @@ const Order = () => {
                   padding: "15px",
                 }}
               >
-                {/* <Typography variant="h4">{product.product.name}</Typography> */}
-                {/* <Typography variant="h4">₹{product.product.price}</Typography> */}
+                <Typography variant="h4">{product.name}</Typography>
+                <Typography variant="h4">₹{product.price}</Typography>
                 <img
-                  // src={`http://localhost:8080/assets/${product.product.picturePath}`}
+                  src={`http://localhost:8080/assets/${product.picturePath}`}
                   width="80"
                   height="80"
                 />
-                {/* {user._doc.type === "Seller" && (
-                  // <Typography variant="h4">{orders[i].status}</Typography>
-                  <Typography variant="h4">hihi</Typography>
-                )} */}
+                {user.type === "Seller" && (
+                  <Typography variant="h4">
+                    {products.userOrders[i]?.status}
+                  </Typography>
+                )}
 
-                {/* {user._doc.type === "Farmer" && (
+                {user?.type === "Farmer" && (
                   <Box sx={{ gridColumn: "span 4", border: "1px solid black" }}>
                     <select
-                      defaultValue="Ordered"
+                      defaultValue={products.userOrders[i].status}
                       onChange={(e) => {
+                        // console.log(e.target.value)
                         setOrderStatus(e.target.value);
-                        console.log(orderStatus);
+                        updateOrderStatus(product, products.userOrders[i]);
                       }}
                     >
-                      <option value="Farmer">Ordered</option>
-                      <option value="Seller">Delivered</option>
+                      <option value="Ordered">Ordered</option>
+                      <option value="Delivered">Delivered</option>
                     </select>
                   </Box>
-                )} */}
+                )}
               </Box>
             );
           })}
         </Box>
-        {/* {console.log("ProductIds")}
-        {console.log(productIds)}
-        {console.log("Products")}
-        {console.log(products)} */}
-        {isVisible && <button onClick={fetchProducts}>FetchOrders</button>}
       </div>
     </div>
   );

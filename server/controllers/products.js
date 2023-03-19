@@ -95,17 +95,32 @@ export const fetchOrder = async (req, res) => {
         const orders = await Orders.find();
         if (type === 'Seller') {
             let userOrders = orders.filter(order => order.customerId === userId);
-            let productIds = userOrders.map(order => order.productId)
-            return res.status(200).json({ productIds: productIds, userOrdersIds: userOrders })
+            let products = await Products.find();
+            return res.status(200).json({ msg: "ok", products, userOrders })
         } else if (type === 'Farmer') {
             const userOrders = orders.filter(order => order.farmerId === userId);
-            return res.status(200).json({ userOrders })
+            let products = await Products.find();
+            return res.status(200).json({ msg: "ok", products, userOrders })
         }
 
         res.status(404).json({ mg: "No orders Found...!" })
 
     } catch (error) {
         res.status(500).json({ msg: "Error fetching orders" })
+    }
+}
 
+export const updateOrderStatus = async (req, res) => {
+    try {
+        const { orderId, status } = req.body
+        console.log(orderId,status)
+        const order = await Orders.findById({ _id: orderId })
+        console.log(order)
+        order.status = status;
+        await order.save();
+
+        res.status(200).json({ msg: "product saved successfully...!" })
+    } catch (error) {
+        res.status(500).json({ msg: "Error fetching orders" })
     }
 }
