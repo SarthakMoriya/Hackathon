@@ -26,6 +26,23 @@ const FarmerProducts = () => {
   const user = useSelector((state) => state.user);
   const farmerId = useParams();
 
+  const notify = (message, error = "success") => {
+    if (error === "success") toast.success(`${message}`);
+    else if (error === "error") {
+      toast.error(`${message}`);
+    } else if (error === "info") {
+      toast.info(`${message}`);
+    }
+  };
+
+  const fetchProducts = async () => {
+    console.log(farmerId.id);
+    const response = await fetch(
+      `http://localhost:8080/product/getAllProductsOfFarmer/${farmerId.id}`
+    );
+    const data = await response.json();
+    setProducts(data.products);
+  };
 
   useEffect(() => {
     fetchProducts();
@@ -34,15 +51,6 @@ const FarmerProducts = () => {
   const handleCart = (product) => {
     setCartItems((prevState) => [product, ...prevState]);
     console.log(cartItems);
-  };
-
-  const notify = (message, error = "success") => {
-    if (error === "success") toast.success(`${message}`);
-    else if (error === "error") {
-      toast.error(`${message}`);
-    } else if (error === "info") {
-      toast.info(`${message}`);
-    }
   };
 
   const handleBuy = () => {
@@ -62,20 +70,8 @@ const FarmerProducts = () => {
         }),
       });
       const data = await response.json();
-      console.log(data);
       notify(data.msg);
     });
-  };
-
-  const fetchProducts = async () => {
-    const response = await fetch(
-      "http://localhost:8080/product/getAllProducts",
-      {
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-    const data = await response.json();
-    setProducts(data);
   };
 
   const handleRemoveItems = (item) => {
@@ -154,8 +150,8 @@ const FarmerProducts = () => {
           </button>
         </div>
         <motion.div className="main-box">
-          {products.map((product) => {
-            if (product.category === "Crop" && isCrops) {
+        {products.map((product) => {
+            if (product.category === "Crops" && isCrops) {
               return (
                 <motion.div
                   className="card"
@@ -440,6 +436,7 @@ const FarmerProducts = () => {
           </button>
         </motion.div>
       )}
+      {console.log(products)}
     </div>
   );
 };
@@ -489,3 +486,8 @@ export default FarmerProducts;
           ))}
  * 
  */
+
+/*
+   
+
+*/

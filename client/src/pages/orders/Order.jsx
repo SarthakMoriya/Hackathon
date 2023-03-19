@@ -12,7 +12,7 @@ const Order = () => {
 
   const fetchProductIds = async () => {
     const response = await fetch(
-      `http://localhost:8080/product/buy/${user._id}/${user.type}`
+      `http://localhost:8080/product/buy/${user?._id}/${user?.type}`
     );
 
     const data = await response.json();
@@ -24,7 +24,7 @@ const Order = () => {
   }, []);
 
   const updateOrderStatus = async (product, order) => {
-    const status = order.status;
+    const status = order?.status;
     console.log("status::" ,status)
     const updatedStatus = status === "Ordered" ? "Delivered" : "Ordered";
     console.log("UpdatedStatus::" , updatedStatus)
@@ -67,7 +67,11 @@ const Order = () => {
             <Typography variant="h3">Image</Typography>
             <Typography variant="h3">Status</Typography>
           </Box>
+          {console.log(products)}
           {products.products?.map((product, i) => {
+            if(products.userOrders.length ===0){
+              return;
+            }
             return (
               <Box
                 key={products.userOrders[i]?._id}
@@ -96,7 +100,7 @@ const Order = () => {
                 {user?.type === "Farmer" && (
                   <Box sx={{ gridColumn: "span 4", border: "1px solid black" }}>
                     <select
-                      defaultValue={products.userOrders[i].status}
+                      defaultValue={products.userOrders[i]?.status}
                       onChange={(e) => {
                         // console.log(e.target.value)
                         setOrderStatus(e.target.value);

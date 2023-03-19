@@ -153,7 +153,7 @@ const Buy = () => {
         </div>
         <motion.div className="main-box">
           {products.map((product) => {
-            if (product.category === "Crop" && isCrops) {
+            if (product.category === "Crops" && isCrops) {
               return (
                 <motion.div
                   className="card"

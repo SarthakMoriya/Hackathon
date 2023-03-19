@@ -1,15 +1,33 @@
 .search-box {
-    margin-top: 50px;
+    margin-top: 121px;
     margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around
+}
+
+input[type="text"] {
+    padding: 20px;
 }
 
 .cards-section {
-    width: 100%;
+    width: 100vw;
     display: flex;
     align-items: center;
     justify-content: space-around;
     flex-wrap: wrap;
-    gap:30px;
+    gap: 30px;
     background-color: #17B486;
-    height: 100vh;
+    /* height: 100vh; */
+}
+
+.motion-div {
+    width: 25vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 30px;
+    background-color: #17B486;
+    /* height: 100vh; */
 }

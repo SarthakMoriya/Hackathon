@@ -7,7 +7,7 @@ import Aftnav from "../../components/Afternav/Aftnav";
 import Middlesection from "../../components/MiddleSection/Middlesection";
 import Carousal from "../../components/Carousal/Carousal";
 import AfterCarousal from "../../components/AfterCrousal/Aftercrousal";
-
+import Footer from '../../components/Footer/Footer'
 const Home = () => {
 
   return (
@@ -22,6 +22,7 @@ const Home = () => {
       <Middlesection />
       <Carousal />
       <AfterCarousal />
+      <Footer/>
     </div>
   );
 };

@@ -113,13 +113,26 @@ export const fetchOrder = async (req, res) => {
 export const updateOrderStatus = async (req, res) => {
     try {
         const { orderId, status } = req.body
-        console.log(orderId,status)
+        console.log(orderId, status)
         const order = await Orders.findById({ _id: orderId })
         console.log(order)
         order.status = status;
         await order.save();
 
         res.status(200).json({ msg: "product saved successfully...!" })
+    } catch (error) {
+        res.status(500).json({ msg: "Error fetching orders" })
+    }
+}
+
+
+export const getFarmerProducts = async (req, res) => {
+    try {
+        const { id } = req.params;
+        console.log(id)
+        const products = await Products.find({ userId: id })
+        console.log(products)
+        res.status(200).json({ products: products })
     } catch (error) {
         res.status(500).json({ msg: "Error fetching orders" })
     }

@@ -75,17 +75,7 @@ class BuggyCounter extends React.Component {
 function App() {
   const user = useSelector((state) => state.user);
   const theme = useMemo(() => createTheme(themeSettings("light")), []);
-  useEffect(() => {
-    const successfulLookup = (position) => {
-      const { latitude, longitude } = position.coords;
-      fetch(
-        `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=6762b72f67c840eeb736155d8b9b803d`
-      )
-        .then((response) => response.json())
-        .then(console.log);
-    };
-    navigator.geolocation.getCurrentPosition(successfulLookup, console.log);
-  });
+
   return (
     <ErrorBoundary>
       <div className="">
