@@ -6,6 +6,7 @@ const productSchema = new mongoose.Schema({
     photo: { type: String },
     userId: { type: String, required: [true, 'product must have a price!'] },
     category: { type: String },
+    units: { type: String,default:'/kg'},
     picturePath: { type: String },
     username: { type: String },
 })

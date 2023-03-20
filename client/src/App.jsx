@@ -18,6 +18,7 @@ import Order from "./pages/orders/Order";
 import Farmers from "./pages/Farmers/Farmers";
 import FarmerProducts from "./pages/FarmerProducts/FarmerProducts";
 import GoogleTranslate from "./GoogleTranate";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -78,14 +79,11 @@ function App() {
   const theme = useMemo(() => createTheme(themeSettings("light")), []);
 
 
-
-  
   return (
     <ErrorBoundary>
       <div className="">
-        <div style={{marginTop:"85px"}} id="google_translate_element"></div>
-        <div id="google_translate_element" style={{ marginTop: "85px" }}></div>
-        {/* <button id="translate">Translate</button> */}
+        {/* <div style={{marginTop:"85px"}} id="google_translate_element"></div>
+        <div id="google_translate_element" style={{ marginTop: "85px" }}></div> */}
         {/* <GoogleTranslate/> */}
         <BrowserRouter>
           <ThemeProvider theme={theme}>
@@ -103,6 +101,10 @@ function App() {
               <Route
                 path="/farmer/products/:id"
                 element={user ? <FarmerProducts /> : <Login />}
+              />
+              <Route
+                path="/profile/:id"
+                element={user ? <ProfilePage /> : <Login />}
               />
             </Routes>
           </ThemeProvider>

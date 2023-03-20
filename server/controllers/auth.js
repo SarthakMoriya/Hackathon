@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import Farmers from '../Models/farmerModel.js'
 import Sellers from '../Models/sellerModel.js'
 import OtherSellers from '../Models/otherSellers.js'
+import Company from '../Models/CompanyModel.js'
 
 /* REGISTER USER */
 export const register = async (req, res) => {
@@ -17,6 +18,8 @@ export const register = async (req, res) => {
       city,
       type,
       area,
+      person,
+      name
     } = req.body;
     console.log(type)
     if (type === 'Farmer') {
@@ -69,6 +72,22 @@ export const register = async (req, res) => {
       const savedSeller = await newSeller.save();
       res.status(201).json({ user: savedSeller });
     }
+    if (type === 'Company') {
+      const salt = await bcrypt.genSalt();
+      const passwordHash = await bcrypt.hash(password, salt);
+      const newCompany = new Company({
+        name,
+        phone,
+        password: passwordHash,
+        picturePath,
+        state,
+        city,
+        type,
+        person
+      });
+      const savedCompany = await newCompany.save();
+      res.status(201).json({ user: savedCompany });
+    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -78,7 +97,7 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { phone, password, } = req.body;
-    let user = await Farmers.findOne({ phone }) || await Sellers.findOne({ phone }) || await OtherSellers.findOne({ phone });
+    let user = await Farmers.findOne({ phone }) || await Sellers.findOne({ phone }) || await OtherSellers.findOne({ phone }) || await Company.findOne({ phone });
     if (!user) return res.status(400).json({ msg: "User does not exist. " });
 
 

@@ -8,7 +8,7 @@ import OtherSellers from "../Models/otherSellers.js";
 export const createProduct = async (req, res) => {
 
     try {
-        const { name, price, category, userId, picturePath, username } = req.body;
+        const { name, price, category, userId, picturePath, username, units } = req.body;
 
         const isFarmer = await Farmers.findById(userId) || await OtherSellers.findById(userId)
         if (!isFarmer) return res.status(401).json({ msg: "Only Farmers and Retailers can add Products...!" })
@@ -18,10 +18,11 @@ export const createProduct = async (req, res) => {
             category,
             userId,
             picturePath,
-            username
+            username,
+            units
         })
         const savedProduct = await product.save()
-        console.log(savedProduct)
+        // console.log(savedProduct)
         res.status(201).json({ product: savedProduct, msg: "Product added successfully...!" })
     } catch (error) {
         res.status(500).json({ msg: "Only Farmers and Retailers can add Products...!", error })
@@ -31,9 +32,9 @@ export const createProduct = async (req, res) => {
 export const createFarmingProduct = async (req, res) => {
 
     try {
-        const { name, price, category, userId, picturePath, username } = req.body;
+        const { name, price, category, userId, picturePath, username, units } = req.body;
 
-        const isRetailer= await OtherSellers.findById(userId)
+        const isRetailer = await OtherSellers.findById(userId)
         if (!isRetailer) return res.status(401).json({ msg: "Only Farmers and Retailers  can add Products...!" })
         const product = new Products({
             name,
@@ -41,10 +42,11 @@ export const createFarmingProduct = async (req, res) => {
             category,
             userId,
             picturePath,
-            username
+            username,
+            units
         })
         const savedProduct = await product.save()
-        console.log(savedProduct)
+        // console.log(savedProduct)
         res.status(201).json({ product: savedProduct, msg: "Product added successfully...!" })
     } catch (error) {
         res.status(500).json({ msg: "Only Farmers can add Products...!", error })
@@ -87,7 +89,7 @@ export const buyProduct = async (req, res) => {
 export const getProduct = async (req, res) => {
     try {
         const { productId } = req.params;
-        console.log(productId)
+        // console.log(productId)
         const product = await Products.findById(productId);
         if (!product) return res.status(404).json({ msg: "No Product Found" })
         res.status(201).json({ product })
@@ -116,7 +118,7 @@ export const buyOrder = async (req, res) => {
 export const fetchOrder = async (req, res) => {
     try {
         const { userId, type } = req.params;
-        console.log(userId, type)
+        // console.log(userId, type)
         const orders = await Orders.find();
         if (type === 'Seller') {
             let userOrders = orders.filter(order => order.customerId === userId);
@@ -124,6 +126,11 @@ export const fetchOrder = async (req, res) => {
             return res.status(200).json({ msg: "ok", products, userOrders })
         } else if (type === 'Farmer') {
             const userOrders = orders.filter(order => order.farmerId === userId);
+            let products = await Products.find();
+            return res.status(200).json({ msg: "ok", products, userOrders })
+        }
+         else if (type === 'Company') {
+            const userOrders = orders.filter(order => order.customerId === userId);
             let products = await Products.find();
             return res.status(200).json({ msg: "ok", products, userOrders })
         }
@@ -139,13 +146,24 @@ export const updateOrderStatus = async (req, res) => {
     try {
         const { orderId, status } = req.body
         console.log(orderId, status)
-        const order = await Orders.findById({ _id: orderId })
-        console.log(order)
-        order.status = status;
-        await order.save();
-        console.log(order)
+        if (status === 'ordered') {
+            const order = await Orders.findById({ _id: orderId })
 
-        res.status(200).json({ msg: "product saved successfully...!" ,order})
+            console.log(order)
+            order.status = 'Delivered';
+            await order.save();
+            console.log(order)
+        }
+        else if (status === 'delivered') {
+            const order = await Orders.findById({ _id: orderId })
+            console.log(order)
+            order.status = "Ordered";
+            await order.save();
+            console.log(order)
+        }
+
+
+        res.status(200).json({ msg: "product saved successfully...!" })
     } catch (error) {
         res.status(500).json({ msg: "Error fetching orders" })
     }

@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import { Box, Typography } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import "./Order.css";
-import { resetOrders, setOrders } from "../../state";
 
 const Order = () => {
   const user = useSelector((state) => state.user._doc);
   const [products, setProducts] = useState([]);
   const [orderStatus, setOrderStatus] = useState("");
-  const [counter, setCounter] = useState(0);
 
   const fetchProductIds = async () => {
     const response = await fetch(
@@ -22,23 +20,22 @@ const Order = () => {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line
     fetchProductIds();
   }, []);
 
   const updateOrderStatus = async (product, order) => {
     console.log(order)
-    const status = order?.status;
-    console.log("status::", status);
-    const updatedStatus = status === "Ordered" ? "Delivered" : "Ordered";
-    console.log("UpdatedStatus::", updatedStatus);
+    const updatedorder=order==='ordered'?'delivered':'ordered'
     const response = await fetch(`http://localhost:8080/product/updateorder`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ orderId: order._id, status: updatedStatus }),
+      body: JSON.stringify({ orderId: order._id, status: updatedorder }),
     });
 
     const data = await response.json();
-    console.log(data);
+    console.log(data)
+
   };
 
   return (
@@ -123,7 +120,7 @@ const Order = () => {
             const product = products?.products?.filter(
               (product) => product._id === order.productId
             );
-            console.log(product);
+            console.log(order)
 
             return (
               <Box
@@ -141,12 +138,13 @@ const Order = () => {
                 <Typography variant="h4">₹{product[0].price}</Typography>
                 <img
                   src={`http://localhost:8080/assets/${product[0].picturePath}`}
+                  alt="Product"
                   width="80"
                   height="80"
                 />
-                {user.type === "Seller" && (
+                {(user.type === "Seller" || user.type === "Company" )&& (
                   <Typography variant="h4">
-                    {order?.status}
+                    {order.status}
                   </Typography>
                 )}
 
@@ -155,7 +153,7 @@ const Order = () => {
                     <select
                       defaultValue={order?.status}
                       onChange={(e) => {
-                        console.log(e.target.value)
+                       
                         setOrderStatus(e.target.value);
                         updateOrderStatus(product, order);
                       }}

@@ -14,7 +14,7 @@ input[type="text"] {
     width: 100vw;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    /* justify-content: space-around; */
     flex-wrap: wrap;
     gap: 30px;
     background-color: #17B486;
@@ -24,6 +24,7 @@ input[type="text"] {
 .motion-div {
     width: 25vw;
     display: flex;
+    padding: 25px;
     align-items: center;
     justify-content: space-around;
     flex-wrap: wrap;

@@ -62,7 +62,7 @@ const Buy = () => {
       });
       const data = await response.json();
       notify(data.msg);
-      setCartItems([])
+      setCartItems([]);
     });
   };
 
@@ -97,7 +97,7 @@ const Buy = () => {
         pauseOnHover
         theme="dark"
       />
-      <div className="main-container">
+      <div className="main-container" style={{ marginTop: "85px" }}>
         <div className="left-sidebar">
           <button
             className={`button ${isDairy && "active"}`}
@@ -147,9 +147,9 @@ const Buy = () => {
           >
             Crops
           </button>
-          {user._doc.type === "Farmer" && (
+          {(user._doc.type === "Farmer" || user._doc.type === "Retailer") && (
             <button
-              className={`button ${isCrops && "active"}`}
+              className={`button ${isFarming && "active"}`}
               onClick={() => {
                 setIsDairy(false);
                 setIsCrops(false);
@@ -163,7 +163,7 @@ const Buy = () => {
           )}
 
           <button
-            className={`button`}
+            className="button"
             onClick={() => {
               setIsCartOpen(!isCartOpen);
             }}
@@ -173,7 +173,7 @@ const Buy = () => {
         </div>
         <motion.div className="main-box">
           {products.map((product) => {
-            if (product.category === "Crops" && isCrops) {
+            if (product.category === "Crop" && isCrops) {
               return (
                 <motion.div
                   className="card"
@@ -210,18 +210,30 @@ const Buy = () => {
                     </CardContent>
                     <CardActions>
                       <Button size="large">₹{product.price}</Button>
-                      <Button
-                        size="large"
-                        color="success"
-                        variant="outlined"
-                        className="buy-btn"
-                        onClick={() => {
-                          handleCart(product);
-                          notify("1 Item added");
-                        }}
-                      >
-                        Add to cart
-                      </Button>
+                      {user._doc._id === product.userId ? (
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          component="div"
+                          title="View more "
+                          sx={{ marginLeft: "60px" }}
+                        >
+                          Your Product
+                        </Typography>
+                      ) : (
+                        <Button
+                          size="large"
+                          color="success"
+                          variant="outlined"
+                          className="buy-btn"
+                          onClick={() => {
+                            handleCart(product);
+                            notify("1 Item added");
+                          }}
+                        >
+                          Add to cart
+                        </Button>
+                      )}
                     </CardActions>
                   </Card>
                 </motion.div>
@@ -267,14 +279,18 @@ const Buy = () => {
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <Button size="large">₹{product.price}</Button>
+                      <Button size="large">
+                        ₹{product.price}
+                        {"/"}
+                        {product.units}
+                      </Button>
                       {user._doc._id === product.userId ? (
                         <Typography
                           gutterBottom
                           variant="h5"
                           component="div"
                           title="View more "
-                          sx={{marginLeft:"60px"}}
+                          sx={{ marginLeft: "60px" }}
                         >
                           Your Product
                         </Typography>
@@ -332,19 +348,35 @@ const Buy = () => {
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <Button size="large">₹{product.price}</Button>
-                      <Button
-                        size="large"
-                        color="success"
-                        variant="outlined"
-                        className="buy-btn"
-                        onClick={() => {
-                          handleCart(product);
-                          notify("1 Item added");
-                        }}
-                      >
-                        Add to cart
+                      <Button size="large">
+                        ₹{product.price}
+                        {"/"}
+                        {product.units}
                       </Button>
+                      {user._doc._id === product.userId ? (
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          component="div"
+                          title="View more "
+                          sx={{ marginLeft: "60px" }}
+                        >
+                          Your Product
+                        </Typography>
+                      ) : (
+                        <Button
+                          size="large"
+                          color="success"
+                          variant="outlined"
+                          className="buy-btn"
+                          onClick={() => {
+                            handleCart(product);
+                            notify("1 Item added");
+                          }}
+                        >
+                          Add to cart
+                        </Button>
+                      )}
                     </CardActions>
                   </Card>
                 </motion.div>
@@ -385,19 +417,35 @@ const Buy = () => {
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <Button size="large">₹{product.price}</Button>
-                      <Button
-                        size="large"
-                        color="success"
-                        variant="outlined"
-                        className="buy-btn"
-                        onClick={() => {
-                          handleCart(product);
-                          notify("1 Item added");
-                        }}
-                      >
-                        Add to cart
+                      <Button size="large">
+                        ₹{product.price}
+                        {"/"}
+                        {product.units}
                       </Button>
+                      {user._doc._id === product.userId ? (
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          component="div"
+                          title="View more "
+                          sx={{ marginLeft: "60px" }}
+                        >
+                          Your Product
+                        </Typography>
+                      ) : (
+                        <Button
+                          size="large"
+                          color="success"
+                          variant="outlined"
+                          className="buy-btn"
+                          onClick={() => {
+                            handleCart(product);
+                            notify("1 Item added");
+                          }}
+                        >
+                          Add to cart
+                        </Button>
+                      )}
                     </CardActions>
                   </Card>
                 </motion.div>
@@ -438,19 +486,35 @@ const Buy = () => {
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <Button size="large">₹{product.price}</Button>
-                      <Button
-                        size="large"
-                        color="success"
-                        variant="outlined"
-                        className="buy-btn"
-                        onClick={() => {
-                          handleCart(product);
-                          notify("1 Item added");
-                        }}
-                      >
-                        Add to cart
+                      <Button size="large">
+                        ₹{product.price} {"/"}
+                        {product.units}
                       </Button>
+
+                      {user._doc._id === product.userId ? (
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          component="div"
+                          title="View more "
+                          sx={{ marginLeft: "60px" }}
+                        >
+                          Your Product
+                        </Typography>
+                      ) : (
+                        <Button
+                          size="large"
+                          color="success"
+                          variant="outlined"
+                          className="buy-btn"
+                          onClick={() => {
+                            handleCart(product);
+                            notify("1 Item added");
+                          }}
+                        >
+                          Add to cart
+                        </Button>
+                      )}
                     </CardActions>
                   </Card>
                 </motion.div>

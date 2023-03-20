@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { setLogin } from "../../state";
@@ -25,6 +25,9 @@ const Form = () => {
   const [password, setPassword] = useState("test1234");
   const [type, setType] = useState("Farmer");
   const [pageType, setPageType] = useState("login");
+  const [person, setPerson] = useState("");
+  const [compNo, setCompNo] = useState();
+  const [companyName, setCompanyName] = useState("");
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -49,6 +52,8 @@ const Form = () => {
       formData.append("picture", picture);
       formData.append("type", type);
       formData.append("area", yards);
+      formData.append("person", person);
+      formData.append("name", companyName);
 
       const response = await fetch("http://localhost:8080/auth/register", {
         method: "POST",
@@ -82,6 +87,7 @@ const Form = () => {
       }
     }
   };
+
   return (
     <div className="ask-question">
       <form onSubmit={handleSubmit}>
@@ -108,21 +114,37 @@ const Form = () => {
         >
           {isRegister && (
             <>
-              <TextField
-                label="First Name"
-                value={firstName}
-                onChange={(e) => {
-                  setFirstName(e.target.value);
-                }}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                value={lastName}
-                onChange={(e) => {
-                  setLastName(e.target.value);
-                }}
-                sx={{ gridColumn: "span 2" }}
-              />
+              {type !== "Company" && (
+                <TextField
+                  label="First Name"
+                  value={firstName}
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                  }}
+                  sx={{ gridColumn: "span 2" }}
+                />
+              )}
+              {type !== "Company" && (
+                <TextField
+                label='Last Name'
+                  value={lastName}
+                  onChange={(e) => {
+                    setLastName(e.target.value);
+                  }}
+                  sx={{ gridColumn: "span 2" }}
+                />
+              )}
+              {type === "Company" && (
+                <TextField
+                label='Company Name'
+                  value={companyName}
+                  onChange={(e) => {
+                    setCompanyName(e.target.value);
+                  }}
+                  sx={{ gridColumn: "span 4" }}
+                />
+              )}
+
               <TextField
                 label="State"
                 value={state}
@@ -164,8 +186,31 @@ const Form = () => {
                   <option value="Farmer">Farmer</option>
                   <option value="Seller">Customer</option>
                   <option value="Retailer">Retailer</option>
+                  <option value="Company">Company</option>
                 </select>
               </Box>
+              {type === "Company" && (
+                <TextField
+                  label="Officer"
+                  type="text"
+                  value={person}
+                  onChange={(e) => {
+                    setPerson(e.target.value);
+                  }}
+                  sx={{ gridColumn: "span 4" }}
+                />
+              )}
+              {type === "Company" && (
+                <TextField
+                  label="Company Number"
+                  type="number"
+                  value={compNo}
+                  onChange={(e) => {
+                    setCompNo(e.target.value);
+                  }}
+                  sx={{ gridColumn: "span 4" }}
+                />
+              )}
               {type === "Farmer" && (
                 <TextField
                   label="Area in Yards"

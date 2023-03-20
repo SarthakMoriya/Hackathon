@@ -52,14 +52,20 @@ function Navbar() {
               {(user?._doc?.type === "Farmer" ||
                 user?._doc?.type === "Retailer") && (
                 <li className="nav-item">
-                  <Link className="nav-link p-3" to="/sell">
-                    <h4 style={{ color: "rgba(0 ,0 ,0 ,0.55)" }}>
+                  <Link className="nav-link p-3" to="/sell" style={{}}>
+                    <h4
+                      style={{
+                        color: "rgba(0 ,0 ,0 ,0.55)",
+                        fontSize: "1.38rem",
+                      }}
+                    >
                       Add Product
                     </h4>
                   </Link>
                 </li>
               )}
-              {user?._doc?.type === "Seller" && (
+              {(user?._doc?.type === "Seller" ||
+                user._doc.type === "Company") && (
                 <li className="nav-item">
                   <Link className="nav-link p-3" to="/farmers">
                     <h4
@@ -91,6 +97,32 @@ function Navbar() {
               </li>
             </ul>
             <div className="row login">
+              <div className=" col-lg-6 col-sm-12">
+                <Box>
+                  <Button
+                    onClick={() => {
+                      navigate(`/profile/${user._doc._id}`);
+                    }}
+                    fullWidth
+                    type="submit"
+                    sx={{
+                      // m: "2rem 0",
+                      // p: "1rem",
+                      backgroundColor: palette.primary.dark,
+                      color: palette.background.alt,
+                      "&:hover": {
+                        color: palette.primary.dark,
+                        border: "1px solid green",
+                        backgroundColor: palette.primary.light,
+                      },
+                    }}
+                  >
+                    {user?._doc?.type}
+                  </Button>
+                </Box>
+              </div>
+            </div>
+            <div className="row login" style={{ marginLeft: "5px" }}>
               <div className=" col-lg-6 col-sm-12">
                 <Box>
                   <Button

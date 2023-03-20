@@ -10,7 +10,6 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./AddProduct.css";
 
@@ -19,6 +18,7 @@ const AddProduct = () => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("Crop");
   const [picture, setPicture] = useState("");
+  const [units, setUnits] = useState('kg')
 
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const { palette } = useTheme();
@@ -37,6 +37,7 @@ const AddProduct = () => {
     formData.append("userId", user?._doc?._id);
     formData.append("username", user?._doc?.firstName + " "+user?._doc?.lastName);
     formData.append("picturePath", picture.name);
+    formData.append('units', units);
 
     const response = await fetch(
       "http://localhost:8080/product/createProduct",
@@ -62,7 +63,7 @@ const AddProduct = () => {
         padding="20px"
         borderRadius="2%"
         boxShadow="rgba(17, 12, 46, 0.15) 0px 48px 100px 0px"
-        marginTop='200px'
+        marginTop='150px'
       >
         <Typography variant="h3">ADD PRODUCT</Typography>
         <ToastContainer
@@ -103,6 +104,15 @@ const AddProduct = () => {
                 label="Price"
                 onChange={(e) => {
                   setPrice(e.target.value);
+                }}
+                sx={{ gridColumn: "span 4" }}
+              />
+              <TextField
+                value={units}
+                type="text"
+                label="Units"
+                onChange={(e) => {
+                  setUnits(e.target.value);
                 }}
                 sx={{ gridColumn: "span 4" }}
               />

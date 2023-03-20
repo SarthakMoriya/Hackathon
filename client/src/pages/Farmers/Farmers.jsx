@@ -6,7 +6,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import TextField from "@mui/material/TextField";
 
@@ -36,14 +36,14 @@ const Farmers = () => {
     };
     navigator.geolocation.getCurrentPosition(successfulLookup, console.log);
     console.log(state, city);
-  });
-
-  const setStateO = () => {};
+  }, []);
   useEffect(() => {
     fetchFarmers();
   }, []);
   return (
-    <div>
+    <div
+      style={{ backgroundColor: "rgb(179 212 245 / 25%) ", height: "100vh" }}
+    >
       <Navbar />
       <div className="search-box">
         <TextField
@@ -52,6 +52,7 @@ const Farmers = () => {
           variant="outlined"
           value={state}
           onChange={(e) => {
+            setState("");
             setState(e.target.value);
           }}
         />
@@ -61,6 +62,7 @@ const Farmers = () => {
           variant="outlined"
           value={city}
           onChange={(e) => {
+            setCity("");
             setCity(e.target.value);
           }}
         />
@@ -84,7 +86,7 @@ const Farmers = () => {
               return (
                 <motion.div
                   className="motion-div"
-                  sx={{ width: "25vw" }}
+                  sx={{ width: "25vw", padding: "20px" }}
                   whileInView={{ y: [-100, 0], opacity: [0, 1] }}
                   transition={{ duration: 0.5 }}
                 >
@@ -120,12 +122,10 @@ const Farmers = () => {
                         color="success"
                         variant="outlined"
                         className="buy-btn"
-                        onClick={() => {
-                          //   handleCart(product);
-                          //   notify("1 Item added");
-                        }}
                       >
-                        Check Profile
+                        <Link to={`/farmer/products/${farmer._id}`}>
+                          View Products
+                        </Link>
                       </Button>
                       <Button
                         size="large"
@@ -187,7 +187,9 @@ const Farmers = () => {
                         //   notify("1 Item added");
                       }}
                     >
-                      Check Profile
+                      <Link to={`/profile/${farmer._id}`}>
+                        View Profile
+                      </Link>
                     </Button>
                     <Button
                       size="large"
@@ -203,7 +205,6 @@ const Farmers = () => {
                 </Card>
               </motion.div>
             );
-            
           }
         })}
       </motion.div>
