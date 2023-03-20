@@ -2,6 +2,7 @@ import Products from "../Models/productModel.js";
 import Farmers from '../Models/farmerModel.js';
 import Sellers from '../Models/sellerModel.js';
 import Orders from '../Models/orderModel.js';
+import OtherSellers from "../Models/otherSellers.js";
 
 
 export const createProduct = async (req, res) => {
@@ -9,8 +10,31 @@ export const createProduct = async (req, res) => {
     try {
         const { name, price, category, userId, picturePath, username } = req.body;
 
-        const isFarmer = await Farmers.findById(userId)
-        if (!isFarmer) return res.status(401).json({ msg: "Only Farmers can add Products...!" })
+        const isFarmer = await Farmers.findById(userId) || await OtherSellers.findById(userId)
+        if (!isFarmer) return res.status(401).json({ msg: "Only Farmers and Retailers can add Products...!" })
+        const product = new Products({
+            name,
+            price,
+            category,
+            userId,
+            picturePath,
+            username
+        })
+        const savedProduct = await product.save()
+        console.log(savedProduct)
+        res.status(201).json({ product: savedProduct, msg: "Product added successfully...!" })
+    } catch (error) {
+        res.status(500).json({ msg: "Only Farmers and Retailers can add Products...!", error })
+    }
+}
+
+export const createFarmingProduct = async (req, res) => {
+
+    try {
+        const { name, price, category, userId, picturePath, username } = req.body;
+
+        const isRetailer= await OtherSellers.findById(userId)
+        if (!isRetailer) return res.status(401).json({ msg: "Only Farmers and Retailers  can add Products...!" })
         const product = new Products({
             name,
             price,
@@ -37,6 +61,7 @@ export const getAllProducts = async (req, res) => {
     }
 }
 
+//Not uSing This One
 export const buyProduct = async (req, res) => {
     try {
         const { productId, farmerId, customerId, status } = req.body
@@ -118,8 +143,9 @@ export const updateOrderStatus = async (req, res) => {
         console.log(order)
         order.status = status;
         await order.save();
+        console.log(order)
 
-        res.status(200).json({ msg: "product saved successfully...!" })
+        res.status(200).json({ msg: "product saved successfully...!" ,order})
     } catch (error) {
         res.status(500).json({ msg: "Error fetching orders" })
     }

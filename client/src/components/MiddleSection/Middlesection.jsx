@@ -42,8 +42,8 @@ const Middlesection = () => {
             >
               <div className="main-heading">
                 <div className="flicker">
-                  <h1>
-                    <u>Why to choose E-commerce platform ?</u>
+                  <h1 style={{fontSize:'3rem' ,textTransform:'uppercase'}}>
+                    Why to choose E-commerce platform ?
                   </h1>
                 </div>
               </div>

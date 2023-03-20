@@ -21,6 +21,7 @@ const Buy = () => {
   const [isCrops, setIsCrops] = useState(false);
   const [isVegetables, setIsVegetables] = useState(false);
   const [isDairy, setIsDairy] = useState(false);
+  const [isFarming, setIsFarming] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const user = useSelector((state) => state.user);
@@ -56,12 +57,12 @@ const Buy = () => {
           productId: item._id,
           farmerId: item.userId,
           customerId: user._doc._id,
-          status:"ordered"
+          status: "ordered",
         }),
       });
       const data = await response.json();
-      console.log(data);
       notify(data.msg);
+      setCartItems([])
     });
   };
 
@@ -105,6 +106,7 @@ const Buy = () => {
               setIsCrops(false);
               setIsFruits(false);
               setIsVegetables(false);
+              setIsFarming(false);
             }}
           >
             Dairy Products
@@ -116,6 +118,7 @@ const Buy = () => {
               setIsCrops(false);
               setIsFruits(true);
               setIsVegetables(false);
+              setIsFarming(false);
             }}
           >
             Fruits
@@ -127,6 +130,7 @@ const Buy = () => {
               setIsCrops(false);
               setIsFruits(false);
               setIsVegetables(true);
+              setIsFarming(false);
             }}
           >
             Vegetables
@@ -138,12 +142,28 @@ const Buy = () => {
               setIsCrops(true);
               setIsFruits(false);
               setIsVegetables(false);
+              setIsFarming(false);
             }}
           >
             Crops
           </button>
+          {user._doc.type === "Farmer" && (
+            <button
+              className={`button ${isCrops && "active"}`}
+              onClick={() => {
+                setIsDairy(false);
+                setIsCrops(false);
+                setIsFruits(false);
+                setIsVegetables(false);
+                setIsFarming(true);
+              }}
+            >
+              Farming Essentials
+            </button>
+          )}
+
           <button
-            className={`button ${isCrops && "active"}`}
+            className={`button`}
             onClick={() => {
               setIsCartOpen(!isCartOpen);
             }}
@@ -167,7 +187,7 @@ const Buy = () => {
                   }}
                 >
                   <Card
-                    sx={{ maxWidth: 345 }}
+                    sx={{ maxWidth: 345, margin: 0 }}
                     className="card"
                     key={product._id}
                   >
@@ -219,7 +239,11 @@ const Buy = () => {
                     transition: { duration: 0.5, ease: "easeIn" },
                   }}
                 >
-                  <Card sx={{ maxWidth: 345 }} className="" key={product._id}>
+                  <Card
+                    sx={{ maxWidth: 345, margin: 0 }}
+                    className=""
+                    key={product._id}
+                  >
                     <CardMedia
                       sx={{ height: 140 }}
                       image={`http://localhost:8080/assets/${product.picturePath}`}
@@ -244,18 +268,30 @@ const Buy = () => {
                     </CardContent>
                     <CardActions>
                       <Button size="large">₹{product.price}</Button>
-                      <Button
-                        size="large"
-                        color="success"
-                        variant="outlined"
-                        className="buy-btn"
-                        onClick={() => {
-                          handleCart(product);
-                          notify("1 Item added");
-                        }}
-                      >
-                        Add to cart
-                      </Button>
+                      {user._doc._id === product.userId ? (
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          component="div"
+                          title="View more "
+                          sx={{marginLeft:"60px"}}
+                        >
+                          Your Product
+                        </Typography>
+                      ) : (
+                        <Button
+                          size="large"
+                          color="success"
+                          variant="outlined"
+                          className="buy-btn"
+                          onClick={() => {
+                            handleCart(product);
+                            notify("1 Item added");
+                          }}
+                        >
+                          Add to cart
+                        </Button>
+                      )}
                     </CardActions>
                   </Card>
                 </motion.div>
@@ -274,7 +310,7 @@ const Buy = () => {
                   }}
                 >
                   <Card
-                    sx={{ maxWidth: 345 }}
+                    sx={{ maxWidth: 345, margin: 0 }}
                     className="card"
                     key={product._id}
                   >
@@ -327,7 +363,60 @@ const Buy = () => {
                   }}
                 >
                   <Card
-                    sx={{ maxWidth: 345 }}
+                    sx={{ maxWidth: 345, margin: 0 }}
+                    className="card"
+                    key={product._id}
+                  >
+                    <CardMedia
+                      sx={{ height: 140 }}
+                      image={`http://localhost:8080/assets/${product.picturePath}`}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h3" component="div">
+                        {product.name}
+                      </Typography>
+                      <Typography gutterBottom variant="h5" component="div">
+                        Sold by: <Link>{product.username}</Link>
+                      </Typography>
+                      <Typography variant="h4" color="text.secondary">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Obcaecati asperiores modi eaque exercitationem
+                        praesentium reprehenderit neque
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button size="large">₹{product.price}</Button>
+                      <Button
+                        size="large"
+                        color="success"
+                        variant="outlined"
+                        className="buy-btn"
+                        onClick={() => {
+                          handleCart(product);
+                          notify("1 Item added");
+                        }}
+                      >
+                        Add to cart
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </motion.div>
+              );
+            } else if (product.category === "Farming" && isFarming) {
+              return (
+                <motion.div
+                  className="card"
+                  initial={{ opacity: 0, y: 80 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ ease: "easeOut", duration: 1 }}
+                  whileInView={{ opacity: 1 }}
+                  whileHover={{
+                    scale: 1.1,
+                    transition: { duration: 0.5, ease: "easeIn" },
+                  }}
+                >
+                  <Card
+                    sx={{ maxWidth: 345, margin: 0 }}
                     className="card"
                     key={product._id}
                   >
@@ -382,7 +471,7 @@ const Buy = () => {
             scale: 1.1,
             transition: { duration: 0.5, ease: "easeIn" },
           }}
-          exit={{ opacity:0}}
+          exit={{ opacity: 0 }}
         >
           <Box
             display="flex"

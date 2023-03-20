@@ -29,8 +29,8 @@ const sellerSchema = new mongoose.Schema({
     },
     city: { type: String, required: true },
     state: { type: String, required: true },
-    orders: { type: Array },
-    type: String
+    type: { type: String, default: "Seller" },
+
 
 }, { timestamps: true })
 //timestamps gives details like when was added updated ...

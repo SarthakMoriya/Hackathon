@@ -15,6 +15,7 @@ import "./Farmers.css";
 const Farmers = () => {
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
+  const [search, setSearch] = useState(false);
   const [farmers, setFarmers] = useState([]);
   const fetchFarmers = async () => {
     const response = await fetch("http://localhost:8080/farmers/getAllFarmers");
@@ -34,7 +35,10 @@ const Farmers = () => {
       setState(data.results[0].components.state);
     };
     navigator.geolocation.getCurrentPosition(successfulLookup, console.log);
+    console.log(state, city);
   });
+
+  const setStateO = () => {};
   useEffect(() => {
     fetchFarmers();
   }, []);
@@ -47,14 +51,27 @@ const Farmers = () => {
           label="State"
           variant="outlined"
           value={state}
+          onChange={(e) => {
+            setState(e.target.value);
+          }}
         />
         <TextField
           id="outlined-basic"
           label="District"
           variant="outlined"
           value={city}
+          onChange={(e) => {
+            setCity(e.target.value);
+          }}
         />
-        <Button variant="outlined">Search</Button>
+        <Button
+          variant="outlined"
+          onClick={() => {
+            setSearch(!search);
+          }}
+        >
+          Search
+        </Button>
       </div>
       <motion.div
         whileInView={{ y: [100, -10], opacity: [0, 1] }}
@@ -62,66 +79,132 @@ const Farmers = () => {
         className="cards-section"
       >
         {farmers?.map((farmer) => {
-          return (
-            <motion.div
-              className="motion-div"
-              sx={{ width: "25vw" }}
-              whileInView={{ y: [-100, 0], opacity: [0, 1] }}
-              transition={{ duration: 0.5 }}
-            >
-              <Card sx={{ width: "100%" }} className="">
-                <CardMedia
-                  sx={{ height: 270 }}
-                  image={`http://localhost:8080/assets/${farmer.picturePath}`}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h3" component="div">
-                    {farmer.firstName + " " + farmer.lastName}
-                  </Typography>
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="div"
-                    title="View more "
-                  >
-                    {farmer.city}
-                  </Typography>
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="div"
-                    title="View more "
-                  >
-                    {farmer.state}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    size="large"
-                    color="success"
-                    variant="outlined"
-                    className="buy-btn"
-                    onClick={() => {
-                      //   handleCart(product);
-                      //   notify("1 Item added");
-                    }}
-                  >
-                    Check Profile
-                  </Button>
-                  <Button
-                    size="large"
-                    color="success"
-                    variant="outlined"
-                    className="buy-btn"
-                  >
-                    <Link to={`/farmer/products/${farmer._id}`}>
-                      View Products
-                    </Link>
-                  </Button>
-                </CardActions>
-              </Card>
-            </motion.div>
-          );
+          if (search) {
+            if (farmer.state === state && farmer.city === city) {
+              return (
+                <motion.div
+                  className="motion-div"
+                  sx={{ width: "25vw" }}
+                  whileInView={{ y: [-100, 0], opacity: [0, 1] }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Card sx={{ width: "100%" }} className="">
+                    <CardMedia
+                      sx={{ height: 270 }}
+                      image={`http://localhost:8080/assets/${farmer.picturePath}`}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h3" component="div">
+                        {farmer.firstName + " " + farmer.lastName}
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                        title="View more "
+                      >
+                        {farmer.city}
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                        title="View more "
+                      >
+                        {farmer.state}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button
+                        size="large"
+                        color="success"
+                        variant="outlined"
+                        className="buy-btn"
+                        onClick={() => {
+                          //   handleCart(product);
+                          //   notify("1 Item added");
+                        }}
+                      >
+                        Check Profile
+                      </Button>
+                      <Button
+                        size="large"
+                        color="success"
+                        variant="outlined"
+                        className="buy-btn"
+                      >
+                        <Link to={`/farmer/products/${farmer._id}`}>
+                          View Products
+                        </Link>
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </motion.div>
+              );
+            }
+          } else {
+            return (
+              <motion.div
+                className="motion-div"
+                sx={{ width: "25vw" }}
+                whileInView={{ y: [-100, 0], opacity: [0, 1] }}
+                transition={{ duration: 0.5 }}
+              >
+                <Card sx={{ width: "100%" }} className="">
+                  <CardMedia
+                    sx={{ height: 270 }}
+                    image={`http://localhost:8080/assets/${farmer.picturePath}`}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h3" component="div">
+                      {farmer.firstName + " " + farmer.lastName}
+                    </Typography>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="div"
+                      title="View more "
+                    >
+                      {farmer.city}
+                    </Typography>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="div"
+                      title="View more "
+                    >
+                      {farmer.state}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      size="large"
+                      color="success"
+                      variant="outlined"
+                      className="buy-btn"
+                      onClick={() => {
+                        //   handleCart(product);
+                        //   notify("1 Item added");
+                      }}
+                    >
+                      Check Profile
+                    </Button>
+                    <Button
+                      size="large"
+                      color="success"
+                      variant="outlined"
+                      className="buy-btn"
+                    >
+                      <Link to={`/farmer/products/${farmer._id}`}>
+                        View Products
+                      </Link>
+                    </Button>
+                  </CardActions>
+                </Card>
+              </motion.div>
+            );
+            
+          }
         })}
       </motion.div>
     </div>

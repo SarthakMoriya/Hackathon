@@ -12,8 +12,11 @@
     padding-top: 2%
     
 }
-.carousel-heading h1 u{
+.carousel-heading h1 {
     font-size: 3.5rem;
+    margin-top: 2%;
+    margin-bottom: 2%;
+
 }
 
 

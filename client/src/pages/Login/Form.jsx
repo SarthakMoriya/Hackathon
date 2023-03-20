@@ -16,6 +16,7 @@ import "./Form.css";
 
 const Form = () => {
   const [firstName, setFirstName] = useState("sarthak");
+  const [yards, setYards] = useState(0);
   const [lastName, setLastName] = useState("Moriya");
   const [city, setCity] = useState("Amritsar");
   const [state, setState] = useState("Punjab");
@@ -47,6 +48,7 @@ const Form = () => {
       formData.append("picturePath", picture.name);
       formData.append("picture", picture);
       formData.append("type", type);
+      formData.append("area", yards);
 
       const response = await fetch("http://localhost:8080/auth/register", {
         method: "POST",
@@ -161,8 +163,20 @@ const Form = () => {
                 >
                   <option value="Farmer">Farmer</option>
                   <option value="Seller">Customer</option>
+                  <option value="Retailer">Retailer</option>
                 </select>
               </Box>
+              {type === "Farmer" && (
+                <TextField
+                  label="Area in Yards"
+                  type="number"
+                  value={yards}
+                  onChange={(e) => {
+                    setYards(e.target.value);
+                  }}
+                  sx={{ gridColumn: "span 4" }}
+                />
+              )}
             </>
           )}
 

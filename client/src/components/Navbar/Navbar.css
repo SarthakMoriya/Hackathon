@@ -22,22 +22,28 @@
      font-size: 35px;
      color: black;
      font-family: 'Varela', sans-serif;
-
-
  }
+ .navbar-brand h1{
+    font-weight: bold;
+    font-size: 3rem;
+ }
+ 
 
  .navbar-brand:hover {
      color: #455a64;
  }
 
  .nav-links {
-     padding-left: 4%;
+     margin-left: 4%;
  }
 
  .nav-link {
      font-size: 22px;
      font-family: 'Varela', sans-serif;
 
+ }
+ .nav-link:hover{
+    background-color: rgba(0,0,0,0.063);
  }
  .nav-item{
     color: rgba(0, 0, 0, 0.55);

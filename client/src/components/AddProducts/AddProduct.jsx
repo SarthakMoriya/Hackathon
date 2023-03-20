@@ -117,6 +117,9 @@ const AddProduct = () => {
                   <option value="Dairy">Dairy</option>
                   <option value="Friuts">Friuts</option>
                   <option value="Vegetables">Vegetables</option>
+                  {user._doc.type==='Retailer' && (
+                  <option value="Farming">Farming Essentials</option>
+                  )}
                 </select>
               </Box>
               <TextField

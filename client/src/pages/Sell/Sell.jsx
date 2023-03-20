@@ -4,11 +4,13 @@ import AddProduct from "../../components/AddProducts/AddProduct";
 import { useSelector } from "react-redux";
 const Sell = () => {
   const user = useSelector((state) => state.user);
-  console.log(user?._doc?.type)
+  console.log(user?._doc?.type);
   return (
     <div>
       <Navbar />
-      {user?._doc?.type === "Farmer" && <AddProduct />}
+      {(user?._doc?.type === "Farmer" || user?._doc?.type === "Retailer") && (
+        <AddProduct />
+      )}
     </div>
   );
 };

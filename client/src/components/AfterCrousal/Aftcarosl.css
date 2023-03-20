@@ -12,7 +12,11 @@
   font-family: 'Varela', sans-serif;
   margin-left: 12%;
   margin-right: 12%;
+  margin-top: 4%;
   color: #8a78cc;
+}
+.benefits p:hover{
+  color:black;
 }
 
 .benefits p a {

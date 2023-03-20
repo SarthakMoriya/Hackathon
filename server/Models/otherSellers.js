@@ -30,11 +30,9 @@ const farmerSchema = new mongoose.Schema({
     city: { type: String, required: true },
     state: { type: String, required: true },
     orders: { type: Array },
-    type: { type: String, default: "Farmer" },
-
-    area: { type: Number, required: [true, 'A Farmer must specify the area he owns for farming...!'] }
+    type: { type: String, default: "OtherSeller" },
 }, { timestamps: true })
 //timestamps gives details like when was added updated ...
 
-const Farmers = mongoose.model('farmers', farmerSchema)
-export default Farmers;
+const OtherSellers = mongoose.model('otherSellers', farmerSchema)
+export default OtherSellers;

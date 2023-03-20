@@ -28,7 +28,7 @@ function Navbar() {
             <img src="" alt="" className="logo" />
           </div>
           <Link className="navbar-brand" to="/home">
-            <b>Digital Farmer</b>
+            <h1>Digital Farmer</h1>
           </Link>
 
           <button
@@ -49,29 +49,44 @@ function Navbar() {
                   Add
                 </Link>
               </li> */}
-              { user?._doc?.type === "Farmer" && (
+              {(user?._doc?.type === "Farmer" ||
+                user?._doc?.type === "Retailer") && (
                 <li className="nav-item">
                   <Link className="nav-link p-3" to="/sell">
-                    Add Product
+                    <h4 style={{ color: "rgba(0 ,0 ,0 ,0.55)" }}>
+                      Add Product
+                    </h4>
                   </Link>
                 </li>
               )}
-              { user?._doc?.type === "Seller" && (
+              {user?._doc?.type === "Seller" && (
                 <li className="nav-item">
                   <Link className="nav-link p-3" to="/farmers">
-                    Farmers
+                    <h4
+                      style={{ color: "rgba(0 ,0 ,0 ,0.55)", fontSize: "22px" }}
+                    >
+                      Farmers
+                    </h4>
                   </Link>
                 </li>
               )}
 
               <li className="nav-item">
                 <Link className="nav-link p-3" to="/buy">
-                  Shop
+                  <h4
+                    style={{ color: "rgba(0 ,0 ,0 ,0.55)", fontSize: "22px" }}
+                  >
+                    Shop
+                  </h4>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link p-3" to={`/orders/${user._doc._id}`}>
-                  Orders
+                  <h4
+                    style={{ color: "rgba(0 ,0 ,0 ,0.55)", fontSize: "22px" }}
+                  >
+                    Orders
+                  </h4>
                 </Link>
               </li>
             </ul>
@@ -80,7 +95,7 @@ function Navbar() {
                 <Box>
                   <Button
                     onClick={() => {
-                      handleLoginout()
+                      handleLoginout();
                     }}
                     fullWidth
                     type="submit"
@@ -96,7 +111,7 @@ function Navbar() {
                       },
                     }}
                   >
-                    { user?._doc?._id ? "Logout" : "Login"}
+                    {user?._doc?._id ? "Logout" : "Login"}
                   </Button>
                 </Box>
               </div>

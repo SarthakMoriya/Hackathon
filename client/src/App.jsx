@@ -5,8 +5,8 @@ import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./themes/theme";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { useScroll } from "framer-motion"
-import { useMotionValueEvent } from "framer-motion"
+import { useScroll } from "framer-motion";
+import { useMotionValueEvent } from "framer-motion";
 /**Pages Import */
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
@@ -17,6 +17,7 @@ import "./App.css";
 import Order from "./pages/orders/Order";
 import Farmers from "./pages/Farmers/Farmers";
 import FarmerProducts from "./pages/FarmerProducts/FarmerProducts";
+import GoogleTranslate from "./GoogleTranate";
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -76,10 +77,16 @@ function App() {
   const user = useSelector((state) => state.user);
   const theme = useMemo(() => createTheme(themeSettings("light")), []);
 
+
+
+  
   return (
     <ErrorBoundary>
       <div className="">
-        <div id="google_translate_element"></div>
+        <div style={{marginTop:"85px"}} id="google_translate_element"></div>
+        <div id="google_translate_element" style={{ marginTop: "85px" }}></div>
+        {/* <button id="translate">Translate</button> */}
+        {/* <GoogleTranslate/> */}
         <BrowserRouter>
           <ThemeProvider theme={theme}>
             <CssBaseline />

@@ -22,11 +22,15 @@ const Carousal = () => {
       whileInView={{ y: [100, 0], opacity: [0, 1] }}
       transition={{ duration: 1.5 }}
     >
-      <div className="carousel-heading">
-        <h1>
-          <u>News Of The Day</u>
+      <motion.div
+        className="carousel-heading"
+        whileInView={{ y: [100, 0], opacity: [0, 1] }}
+        transition={{ duration: 1 }}
+      >
+        <h1 style={{ textTransform: "uppercase",  }}>
+          News Of The Day
         </h1>
-      </div>
+      </motion.div>
       <div
         id="carouselExampleInterval"
         class="carousel slide carousel-fade"
