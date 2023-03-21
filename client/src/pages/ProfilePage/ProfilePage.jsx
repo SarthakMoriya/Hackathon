@@ -9,13 +9,16 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { Box } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const ProfilePage = () => {
   const [products, setProducts] = useState([]);
   const [farmerInfo, setFarmerInfo] = useState("");
+  const [customerInfo, setCustomerInfo] = useState("");
+  const [retailerInfo, setRetailerInfo] = useState("");
+  const [companyInfo, setCompanyInfo] = useState("");
   const farmer = useParams();
-  console.log(farmer);
-
+  const user = useSelector((state) => state.user._doc);
   const fetchProducts = async () => {
     const response = await fetch(
       `http://localhost:8080/product/getAllProductsOfFarmer/${farmer.id}`
@@ -24,12 +27,29 @@ const ProfilePage = () => {
     setProducts(data);
   };
   const fetchFarmer = async () => {
-    const response = await fetch(
+    let response = await fetch(
       `http://localhost:8080/farmers/getFarmer/${farmer.id}`
     );
-    const data = await response.json();
-    console.log(data);
+    let data = await response.json();
     setFarmerInfo(data);
+
+    response = await fetch(
+      `http://localhost:8080/farmers/getCustomer/${farmer.id}`
+    );
+    data = await response.json();
+    setCustomerInfo(data);
+
+    response = await fetch(
+      `http://localhost:8080/farmers/getRetailer/${farmer.id}`
+    );
+    data = await response.json();
+    setRetailerInfo(data);
+
+    response = await fetch(
+      `http://localhost:8080/farmers/getCompany/${farmer.id}`
+    );
+    data = await response.json();
+    setCompanyInfo(data);
   };
 
   useEffect(() => {
@@ -40,30 +60,88 @@ const ProfilePage = () => {
     <div>
       <Navbar />
       <div className="profile-container" style={{ marginTop: "100px" }}>
-        <div
-          className="img"
-          style={{
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "center",
-            flexWrap: "wrap",
-          }}
-        >
-          <img
-            src={`http://localhost:8080/assets/${farmerInfo?.farmer?.picturePath}`}
-            alt=""
-          />
-        </div>
-        <div className="details">
-          <Typography>
-            Name - {farmerInfo?.farmer?.firstName} -{" "}
-            {farmerInfo?.farmer?.lastName}
-            <br />
-            City - {farmerInfo?.farmer?.city}
-            <br />
-            State - {farmerInfo?.farmer?.state}
-          </Typography>
-        </div>
+        {user.type === "Farmer" && (
+          <div>
+            <div
+              className="img"
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+                flexWrap: "wrap",
+              }}
+            >
+              <img
+                style={{ border: "8px solid black" }}
+                src={`http://localhost:8080/assets/${farmerInfo?.farmer?.picturePath}`}
+                alt=""
+              />
+            </div>
+            <div
+              className="details"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h3">
+                Name - {farmerInfo?.farmer?.firstName}{" "}
+                {farmerInfo?.farmer?.lastName}
+                <br />
+                <br />
+                City - {farmerInfo?.farmer?.city}
+                <br />
+                <br />
+                State - {farmerInfo?.farmer?.state}
+                <br />
+                <br />
+                Phone No. - {farmerInfo?.farmer?.phone}
+              </Typography>
+            </div>
+          </div>
+        )}
+        {user.type === "Seller" && (
+          <div>
+            <div
+              className="img"
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+                flexWrap: "wrap",
+              }}
+            >
+              <img
+                style={{ border: "8px solid black" }}
+                src={`http://localhost:8080/assets/${customerInfo?.customer?.picturePath}`}
+                alt=""
+              />
+            </div>
+            <div
+              className="details"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h3" color='black'>
+                Name - {customerInfo?.customer?.firstName}{" "}
+                {customerInfo?.customer?.lastName}
+                <br />
+                <br />
+                City - {customerInfo?.customer?.city}
+                <br />
+                <br />
+                State - {customerInfo?.customer?.state}
+                <br />
+                <br />
+                Phone No. - {customerInfo?.customer?.phone}
+              </Typography>
+            </div>
+          </div>
+        )}
         <div
           className="products"
           style={{
@@ -99,7 +177,9 @@ const ProfilePage = () => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="large">₹{product.price} /{product.units}</Button>
+                  <Button size="large">
+                    ₹{product.price} /{product.units}
+                  </Button>
                 </CardActions>
               </Card>
             );

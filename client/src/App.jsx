@@ -89,21 +89,21 @@ function App() {
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <Routes>
-              <Route path="/home" element={user ? <Home /> : <Login />} />
-              <Route path="/" element={<Login />} />
-              <Route path="/sell" element={user ? <Sell /> : <Login />} />
-              <Route path="/buy" element={user ? <Buy /> : <Login />} />
-              <Route path="/farmers" element={user ? <Farmers /> : <Login />} />
+              <Route path="/home" title='Digital Farmers | Home'  element={user ? <Home /> : <Login />} />
+              <Route path="/" title='Digital Farmers | Login' element={<Login />} />
+              <Route path="/sell" title='Digital Farmers | Sell Products' element={user ? <Sell /> : <Login />} />
+              <Route path="/buy" title='Digital Farmers | Buy Products' element={user ? <Buy /> : <Login />} />
+              <Route path="/farmers" title='Digital Farmers | All Farmers' element={user ? <Farmers /> : <Login />} />
               <Route
-                path="/orders/:userId"
+                path="/orders/:userId" title='Digital Farmers | Your Orders'
                 element={user ? <Order /> : <Login />}
               />
               <Route
-                path="/farmer/products/:id"
+                path="/farmer/products/:id" title='Digital Farmers | FarmerProducts'
                 element={user ? <FarmerProducts /> : <Login />}
               />
               <Route
-                path="/profile/:id"
+                path="/profile/:id" title='Digital Farmers | Profile Page'
                 element={user ? <ProfilePage /> : <Login />}
               />
             </Routes>

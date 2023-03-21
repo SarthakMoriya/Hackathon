@@ -117,7 +117,10 @@ function Navbar() {
                       },
                     }}
                   >
-                    {user?._doc?.type}
+                    {user?._doc?.type ==='Farmer' && 'Farmer'}
+                    {user?._doc?.type ==='Seller' && 'Customer'}
+                    {user?._doc?.type ==='Company' && 'Company'}
+                    {user?._doc?.type ==='Retailer' && 'Retailer'}
                   </Button>
                 </Box>
               </div>

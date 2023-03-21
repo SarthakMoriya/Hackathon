@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { motion } from "framer-motion";
 
 import "./Buy.css";
+import table from "../../assets/pestTable.png";
 
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -24,8 +25,9 @@ const Buy = () => {
   const [isFarming, setIsFarming] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+  const [isWarningBox, setIsWarningBox] = useState(true);
   const user = useSelector((state) => state.user);
-
+  console.log(user);
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -99,54 +101,63 @@ const Buy = () => {
       />
       <div className="main-container" style={{ marginTop: "85px" }}>
         <div className="left-sidebar">
-          <button
-            className={`button ${isDairy && "active"}`}
-            onClick={() => {
-              setIsDairy(true);
-              setIsCrops(false);
-              setIsFruits(false);
-              setIsVegetables(false);
-              setIsFarming(false);
-            }}
-          >
-            Dairy Products
-          </button>
-          <button
-            className={`button ${isFruits && "active"}`}
-            onClick={() => {
-              setIsDairy(false);
-              setIsCrops(false);
-              setIsFruits(true);
-              setIsVegetables(false);
-              setIsFarming(false);
-            }}
-          >
-            Fruits
-          </button>
-          <button
-            className={`button ${isVegetables && "active"}`}
-            onClick={() => {
-              setIsDairy(false);
-              setIsCrops(false);
-              setIsFruits(false);
-              setIsVegetables(true);
-              setIsFarming(false);
-            }}
-          >
-            Vegetables
-          </button>
-          <button
-            className={`button ${isCrops && "active"}`}
-            onClick={() => {
-              setIsDairy(false);
-              setIsCrops(true);
-              setIsFruits(false);
-              setIsVegetables(false);
-              setIsFarming(false);
-            }}
-          >
-            Crops
-          </button>
+          {user._doc.type !== "Retailer" && (
+            <button
+              className={`button ${isDairy && "active"}`}
+              onClick={() => {
+                setIsDairy(true);
+                setIsCrops(false);
+                setIsFruits(false);
+                setIsVegetables(false);
+                setIsFarming(false);
+              }}
+            >
+              Dairy Products
+            </button>
+          )}
+          {user._doc.type !== "Retailer" && (
+            <button
+              className={`button ${isFruits && "active"}`}
+              onClick={() => {
+                setIsDairy(false);
+                setIsCrops(false);
+                setIsFruits(true);
+                setIsVegetables(false);
+                setIsFarming(false);
+              }}
+            >
+              Fruits
+            </button>
+          )}
+          {user._doc.type !== "Retailer" && (
+            <button
+              className={`button ${isVegetables && "active"}`}
+              onClick={() => {
+                setIsDairy(false);
+                setIsCrops(false);
+                setIsFruits(false);
+                setIsVegetables(true);
+                setIsFarming(false);
+              }}
+            >
+              Vegetables
+            </button>
+          )}
+          {user._doc.type !== "Retailer" && (
+            <button
+              className={`button ${isCrops && "active"}`}
+              onClick={() => {
+                setIsDairy(false);
+                setIsCrops(true);
+                setIsFruits(false);
+                setIsVegetables(false);
+                setIsFarming(false);
+              }}
+            >
+              Crops
+            </button>
+          )}
+
           {(user._doc.type === "Farmer" || user._doc.type === "Retailer") && (
             <button
               className={`button ${isFarming && "active"}`}
@@ -174,6 +185,7 @@ const Buy = () => {
         <motion.div className="main-box">
           {products.map((product) => {
             if (product.category === "Crop" && isCrops) {
+              if (user._doc.type === "Retailer") return;
               return (
                 <motion.div
                   className="card"
@@ -239,6 +251,7 @@ const Buy = () => {
                 </motion.div>
               );
             } else if (product.category === "Friuts" && isFruits) {
+              if (user._doc.type === "Retailer") return;
               return (
                 <motion.div
                   className="card"
@@ -313,6 +326,7 @@ const Buy = () => {
                 </motion.div>
               );
             } else if (product.category === "Vegetables" && isVegetables) {
+              if (user._doc.type === "Retailer") return;
               return (
                 <motion.div
                   className="card"
@@ -382,6 +396,7 @@ const Buy = () => {
                 </motion.div>
               );
             } else if (product.category === "Dairy" && isDairy) {
+              if (user._doc.type === "Retailer") return;
               return (
                 <motion.div
                   className="card"
@@ -451,6 +466,8 @@ const Buy = () => {
                 </motion.div>
               );
             } else if (product.category === "Farming" && isFarming) {
+              console.log(product);
+              console.log(user._doc._id);
               return (
                 <motion.div
                   className="card"
@@ -591,52 +608,34 @@ const Buy = () => {
           </button>
         </motion.div>
       )}
+      {isWarningBox && user._doc.type === "Farmer" && (
+        <div className="warning-box">
+          <div className="warning">
+            <h2 style={{ color: "red", marginLeft: "20px", marginTop: "20px" }}>
+              Disclaimer
+            </h2>
+            <h4 style={{ color: "#bb4e4e", marginLeft: "20px" }}>
+              The pesticides and fertilizers will be distributed according to
+              land holded by the farmer
+            </h4>
+            <h5 style={{ color: "#bb4e4e", marginLeft: "20px" }}>
+              Sales of pesticides and fertilizers will be validated after
+              checking farmer's area in yards
+            </h5>
+            <img src={table} style={{ marginBottom: "10px" }} />
+          </div>
+          <div
+            className="closebtn"
+            onClick={() => {
+              setIsWarningBox(!isWarningBox);
+            }}
+          >
+            X
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default Buy;
-
-/**
- {products.map((product) => (
-            <Card sx={{ maxWidth: 345 }} className="card" key={product._id}>
-              <CardMedia
-                sx={{ height: 140 }}
-                image={`http://localhost:8080/assets/${product.picturePath}`}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h3" component="div">
-                  {product.name}
-                </Typography>
-                <Typography gutterBottom variant="h5" component="div">
-                  Sold by: {product.username}
-                </Typography>
-                <Typography variant="h4" color="text.secondary">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Obcaecati asperiores modi eaque exercitationem praesentium
-                  reprehenderit neque
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="large">₹{product.price}</Button>
-                <Button
-                  size="large"
-                  color="success"
-                  variant="outlined"
-                  className="buy-btn"
-                >
-                  Buy
-                </Button>
-                <Button
-                  size="small"
-                  color="success"
-                  variant="outlined"
-                  className="buy-btn"
-                >
-                  <Link to="/userpage">View more from {product.username}</Link>
-                </Button>
-              </CardActions>
-            </Card>
-          ))}
- * 
- */
